@@ -1,24 +1,34 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-using Blog.FK.Application.Interfaces;
+﻿using Blog.FK.Application.Interfaces;
 using Blog.FK.Domain.Entities;
 using Blog.FK.Domain.Interfaces;
 using Microsoft.AspNetCore.Hosting;
+using System;
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Blog.FK.Application
 {
     public class BlogPostApplication : BaseApplication<BlogPost>, IBlogPostApplication
     {
+        #region "  Services & Repositories  "
+
         private readonly IBlogPostRepository _blogPostRepository;
         private readonly IHostingEnvironment _environment;
+
+        #endregion
+
+        #region "  Constructors  "
 
         public BlogPostApplication(IBlogPostRepository blogPostRepository, IHostingEnvironment environment) : base(blogPostRepository)
         {
             _blogPostRepository = blogPostRepository;
             _environment = environment;
         }
+
+        #endregion
+
+        #region "  Overrides from BaseApplication  "
 
         public override async Task<BlogPost> AddAsync(BlogPost entity)
         {
@@ -47,5 +57,7 @@ namespace Blog.FK.Application
 
             return blogPost;
         }
+
+        #endregion
     }
 }
