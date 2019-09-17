@@ -1,0 +1,34 @@
+﻿@model Blog.FK.Web.ViewModels.UserViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="row">
+    <div class="col col-2"></div>
+    <div class="col col-8">
+
+        @if (TempData["msg"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["msg"]
+            </div>
+        }
+
+        @using (Html.BeginForm())
+        {
+            <div class="form-group">
+                @Html.LabelFor(u => u.Email)
+                @Html.TextBoxFor(u => u.Email, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(u => u.Password)
+                @Html.PasswordFor(u => u.Password, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Login" class="btn btn-primary" />
+            </div>
+        }
+    </div>
+    <div class="col col-2"></div>
+</div>
+

@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="blog-list card-columns" id="blog-list">
+</div>
+
+<script id="blog-card" type="text/template">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">
+                {{PostId}} - {{Title}}
+            </h5>
+            <p class="card-text">{{ShortDescription}}</p>
+            <button onclick="pageEvents.loadBlogPost('{{Id}}', '{{Link}}');" class="btn btn-primary">Ir</button>
+        </div>
+    </div>
+</script>
+
+<div id="blog-item-container"></div>
+
+<script id="blog-item" type="text/template">
+    <div id="{{Link}}" class="blog-item">
+        {{Content}}
+    </div>
+    <a href="#home-title" class="btn btn-primary">Voltar</a>
+</script>
+

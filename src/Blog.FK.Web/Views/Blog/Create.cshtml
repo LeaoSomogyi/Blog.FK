@@ -1,0 +1,37 @@
+﻿@model Blog.FK.Web.ViewModels.BlogPostViewModel
+@{
+    ViewData["Title"] = "Cadastro de Posts";
+}
+
+<h1>Cadastro</h1>
+
+<div class="row">
+    <div class="col-12">
+        @if (TempData["msg"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["msg"]
+            </div>
+        }
+
+        @using (Html.BeginForm("SavePost", "Blog", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="form-group">
+                @Html.LabelFor(p => p.Title)
+                @Html.TextBoxFor(p => p.Title, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(p => p.ShortDescription)
+                @Html.TextBoxFor(p => p.ShortDescription, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(p => p.Content)
+                @Html.TextAreaFor(p => p.Content, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Salvar Post" class="btn btn-primary" />
+            </div>
+        }
+    </div>
+</div>
+
