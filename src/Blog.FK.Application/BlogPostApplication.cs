@@ -3,6 +3,7 @@ using Blog.FK.Domain.Entities;
 using Blog.FK.Domain.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,6 +57,15 @@ namespace Blog.FK.Application
             }
 
             return blogPost;
+        }
+
+        #endregion
+
+        #region "  IBlogPostApplication  "
+
+        public async Task<IEnumerable<BlogPost>> GetMoreBlogPostsAsync(int actualListSize)
+        {
+            return await _blogPostRepository.GetMoreBlogPostsAsync(actualListSize);
         }
 
         #endregion

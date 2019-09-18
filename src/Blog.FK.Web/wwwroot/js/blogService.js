@@ -1,15 +1,12 @@
 ﻿define(['./template.js', '../lib/showdown/showdown.js'], function (template, showdown) {
     var blogPostUrl = '/Blog/GetLatestPosts/';
     var blogGetUrl = '/Blog/LoadBlogPost/?id=';
+    var blogMorePostsUrl = '/Blog/GetMoreBlogPosts/?actualListSize=';
+
+    var actualListSize = 0;
 
     function getLatestPosts() {
-        fetch(blogPostUrl)
-            .then(function (response) {
-                return response.json();
-            }).then(function (data) {
-                console.log(data);
-                template.appendBlogList(data);
-            });
+        loadData(blogPostUrl);
     }
 
     function loadBlogPost(id, url) {
@@ -24,5 +21,20 @@
             });
     }
 
-    return { getLatestPosts: getLatestPosts, loadBlogPost: loadBlogPost };
+    function getMoreBlogPosts() {
+        loadData(blogMorePostsUrl + actualListSize);
+    }
+
+    function loadData(url) {
+        fetch(url)
+            .then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                console.log(data);
+                template.appendBlogList(data);
+                actualListSize = data.length;
+            });
+    }
+
+    return { getLatestPosts: getLatestPosts, loadBlogPost: loadBlogPost, getMoreBlogPosts: getMoreBlogPosts };
 });

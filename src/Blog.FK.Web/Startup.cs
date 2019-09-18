@@ -1,21 +1,17 @@
 ﻿using AutoMapper;
-using Blog.FK.Domain.Configurations;
 using Blog.FK.Infra.DataContext;
 using Blog.FK.IoC;
 using Blog.FK.Web.Extensions;
-using Blog.FK.Web.Filters;
 using Blog.FK.Web.Profiles;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using System;
 using System.Reflection;
 
 namespace Blog.FK.Web
@@ -48,56 +44,33 @@ namespace Blog.FK.Web
 
             InjectorBootstrapper.RegisterServices(services);
 
-            var tokenConfig = new TokenConfigurations();
-            Configuration.Bind("TokenConfigurations", tokenConfig);
-
-            var signingConfigurations = new SigningConfigurations();
-
-            services.AddSingleton(tokenConfig);
-            services.AddSingleton(signingConfigurations);
-
-            services.AddScoped(typeof(AuthorizationFilter));
-
-            services.Configure<MvcOptions>(options =>
-            {
-                options.Filters.AddService<AuthorizationFilter>(1);
-            });
+            services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
             #endregion
 
             #region "  Configure Auth  "
 
-            ConfigureAuth(services, signingConfigurations);
+            ConfigureAuth(services);
 
             #endregion
+
+            services.AddSession();
         }
 
-        private void ConfigureAuth(IServiceCollection services, SigningConfigurations signingConfigurations)
+        private void ConfigureAuth(IServiceCollection services)
         {
-            services.AddAuthentication(authOptions =>
+            services.Configure<CookiePolicyOptions>(options =>
             {
-                authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(bearerOptions =>
-            {
-                bearerOptions.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    IssuerSigningKey = signingConfigurations.SecurityKey,
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ValidateIssuerSigningKey = true,
-                    ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero
-                };
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddAuthorization(auth =>
+            services.Configure<CookieTempDataProviderOptions>(options =>
             {
-                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
-                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-                    .RequireAuthenticatedUser().Build());
+                options.Cookie.IsEssential = true;
             });
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
         }
 
@@ -113,16 +86,17 @@ namespace Blog.FK.Web
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+            app.UseSession();
+            app.UseStaticFiles();
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Blog}/{action=Index}/{id?}");
-            });            
+            });
 
             //Migrate database if needed
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())

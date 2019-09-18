@@ -39,7 +39,7 @@ namespace Blog.FK.Infra.Repositories
             {
                 throw;
             }
-        }        
+        }
 
         public async Task<TEntity> FindAsync(Guid id)
         {

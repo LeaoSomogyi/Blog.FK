@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Blog.FK.Application.Interfaces;
 using Blog.FK.Domain.Entities;
 using Blog.FK.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Blog.FK.Web.Controllers
 {
@@ -22,7 +21,6 @@ namespace Blog.FK.Web.Controllers
             _blogApp = blogApp;
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public IActionResult Index()
         {
@@ -30,7 +28,6 @@ namespace Blog.FK.Web.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public async Task<JsonResult> GetLatestPosts()
         {
             var posts = await _blogApp.GetAllAsync();
@@ -39,12 +36,14 @@ namespace Blog.FK.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> SavePost(BlogPostViewModel blogPost)
         {
             var _blogPost = _mapper.Map<BlogPost>(blogPost);
@@ -52,6 +51,8 @@ namespace Blog.FK.Web.Controllers
             await _blogApp.AddAsync(_blogPost);
 
             TempData["msg"] = "Post cadastrado com sucesso!";
+
+            TempData.Keep("msg");
 
             return Redirect("Create");
         }
@@ -62,6 +63,14 @@ namespace Blog.FK.Web.Controllers
             var blogPost = await _blogApp.FindAsync(id);
 
             return Content(blogPost.Content);
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetMoreBlogPosts(int actualListSize)
+        {
+            var blogPosts = await _blogApp.GetMoreBlogPostsAsync(actualListSize);
+
+            return Json(blogPosts);
         }
     }
 }

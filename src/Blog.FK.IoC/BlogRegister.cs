@@ -11,7 +11,7 @@ namespace Blog.FK.IoC
     public class BlogRegister
     {
         public static void Register(IServiceCollection services)
-        {   
+        {
             services.AddScoped<DbContext, BlogContext>();
             services.AddScoped<IBlogPostRepository, BlogPostRepository>();
             services.AddScoped<IBlogPostApplication, BlogPostApplication>();
