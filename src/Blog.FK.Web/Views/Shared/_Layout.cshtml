@@ -18,9 +18,9 @@
     <link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+<body>    
+    <main role="main">
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <div class="container">
                 <div class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
                     <a class="navbar-brand" asp-controller="Home" asp-action="Index">Blog FK</a>
@@ -41,25 +41,21 @@
                     }
                     else
                     {
-                        <form class="form-inline mt-2 mt-md-0" asp-controller="Account" asp-action="Login">                            
+                        <form class="form-inline mt-2 mt-md-0" asp-controller="Account" asp-action="Login">
                             <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-sign-in-alt"></i></button>
                         </form>
                     }
-                </div>                         
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            <div class="row mt-5">
-                <div class="col-12">
-                    <div id="home-title">                        
-                    </div>
                 </div>
             </div>
-            @RenderBody()
-        </main>
-    </div>
+        </nav>
+        <div class="row mt-5">
+            <div class="col-12">
+                <div id="home-title">
+                </div>
+            </div>
+        </div>
+        @RenderBody()
+    </main>
 
     <footer class="border-top footer text-muted">
         <div class="container">

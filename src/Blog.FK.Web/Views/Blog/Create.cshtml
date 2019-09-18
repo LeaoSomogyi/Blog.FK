@@ -18,15 +18,30 @@
         {
             <div class="form-group">
                 @Html.LabelFor(p => p.Title)
-                @Html.TextBoxFor(p => p.Title, new { @class = "form-control" })
+                <div class="input-group mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa fa-heading"></i></span>
+                        @Html.TextBoxFor(p => p.Title, new { @class = "form-control" })
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(p => p.ShortDescription)
-                @Html.TextBoxFor(p => p.ShortDescription, new { @class = "form-control" })
+                <div class="input-group mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa fa-highlighter"></i></span>
+                        @Html.TextBoxFor(p => p.ShortDescription, new { @class = "form-control" })
+                    </div>
+                </div>                
             </div>
             <div class="form-group">
                 @Html.LabelFor(p => p.Content)
-                @Html.TextAreaFor(p => p.Content, new { @class = "form-control" })
+                <div class="input-group mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa fa-file-alt"></i></span>
+                        @Html.TextAreaFor(p => p.Content, new { @class = "form-control" })
+                    </div>
+                </div>                
             </div>
             <div class="form-group">
                 <input type="submit" value="Salvar Post" class="btn btn-primary" />

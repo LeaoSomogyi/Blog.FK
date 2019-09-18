@@ -32,7 +32,7 @@
             }).then(function (data) {
                 console.log(data);
                 template.appendBlogList(data);
-                actualListSize = data.length;
+                actualListSize += data.length;
             });
     }
 

@@ -4,31 +4,36 @@
 }
 
 <div class="row">
-    <div class="col col-2"></div>
-    <div class="col col-8">
+    <div class="col col-4"></div>
+    <div class="col col-4">
 
-        @if (@TempData["msg"] != null)
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-signin" }))
         {
-            <div class="alert alert-danger">
-                @TempData["msg"]
-            </div>
-        }
 
-        @using (Html.BeginForm())
-        {
-            <div class="form-group">
-                @Html.LabelFor(u => u.Email)
-                @Html.TextBoxFor(u => u.Email, new { @class = "form-control" })
+            <h1 class="h3 mb-3 font-weight-normal">Seja bem vindo ao Blog FK! Informe seus dados para criar posts <i class="fa fa-smile-beam"></i></h1>
+            @if (@TempData["msg"] != null)
+            {
+                <div class="alert alert-danger">
+                    @TempData["msg"]
+                </div>
+            }
+            <label for="inputEmail" class="sr-only">E-mail</label>
+            <div class="input-group mb-0">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                    @Html.TextBoxFor(u => u.Email, new { @class = "form-control", placeholder = "Informe seu e-mail" })
+                </div>
             </div>
-            <div class="form-group">
-                @Html.LabelFor(u => u.Password)
-                @Html.PasswordFor(u => u.Password, new { @class = "form-control" })
+            <label for="inputPassword" class="sr-only">Senha</label>
+            <div class="input-group mb-3">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                    @Html.PasswordFor(u => u.Password, new { @class = "form-control", placeholder = "Informe sua senha" })
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Login" class="btn btn-primary" />
-            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
         }
     </div>
-    <div class="col col-2"></div>
+    <div class="col col-4"></div>
 </div>
 
