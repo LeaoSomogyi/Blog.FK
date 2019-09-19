@@ -2,51 +2,51 @@
 @{
     ViewData["Title"] = "Cadastro de Posts";
 }
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-12">
+            <h1>Cadastro</h1>
+            @if (TempData["msg"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["msg"]
+                </div>
+            }
 
-<h1>Cadastro</h1>
-
-<div class="row">
-    <div class="col-12">
-        @if (TempData["msg"] != null)
-        {
-            <div class="alert alert-success" role="alert">
-                @TempData["msg"]
-            </div>
-        }
-
-        @using (Html.BeginForm("SavePost", "Blog", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            <div class="form-group">
-                @Html.LabelFor(p => p.Title)
-                <div class="input-group mb-3">
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fa fa-heading"></i></span>
-                        @Html.TextBoxFor(p => p.Title, new { @class = "form-control" })
+            @using (Html.BeginForm("SavePost", "Blog", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="form-group">
+                    @Html.LabelFor(p => p.Title)
+                    <div class="input-group mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-heading"></i></span>
+                            @Html.TextBoxFor(p => p.Title, new { @class = "form-control" })
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(p => p.ShortDescription)
-                <div class="input-group mb-3">
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fa fa-highlighter"></i></span>
-                        @Html.TextBoxFor(p => p.ShortDescription, new { @class = "form-control" })
+                <div class="form-group">
+                    @Html.LabelFor(p => p.ShortDescription)
+                    <div class="input-group mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-highlighter"></i></span>
+                            @Html.TextBoxFor(p => p.ShortDescription, new { @class = "form-control" })
+                        </div>
                     </div>
-                </div>                
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(p => p.Content)
-                <div class="input-group mb-3">
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fa fa-file-alt"></i></span>
-                        @Html.TextAreaFor(p => p.Content, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(p => p.Content)
+                    <div class="input-group mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-file-alt"></i></span>
+                            @Html.TextAreaFor(p => p.Content, new { @class = "form-control", rows = "10" })
+                        </div>
                     </div>
-                </div>                
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Salvar Post" class="btn btn-primary" />
-            </div>
-        }
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Salvar Post" class="btn btn-primary" />
+                </div>
+            }
+        </div>
     </div>
 </div>
 

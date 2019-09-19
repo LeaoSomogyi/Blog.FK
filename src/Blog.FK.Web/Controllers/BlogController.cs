@@ -32,7 +32,7 @@ namespace Blog.FK.Web.Controllers
         {
             var posts = await _blogApp.GetAllAsync();
 
-            return Json(posts.OrderByDescending(p => p.CreatedAt));
+            return Json(posts.OrderByDescending(p => p.CreatedAt).Take(3));
         }
 
         [HttpGet]

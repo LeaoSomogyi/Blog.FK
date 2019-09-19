@@ -4,8 +4,8 @@
 }
 
 <div class="row">
-    <div class="col col-4"></div>
-    <div class="col col-4">
+    <div class="col-4"></div>
+    <div class="col-4 mt-5">
 
         @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-signin" }))
         {
@@ -34,6 +34,6 @@
             <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
         }
     </div>
-    <div class="col col-4"></div>
+    <div class="col-4"></div>
 </div>
 
