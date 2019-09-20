@@ -3,6 +3,9 @@
         var blogPostUrl = '/Blog/GetLatestPosts/';
         var blogGetUrl = '/Blog/LoadBlogPost/?id=';
         var blogMorePostsUrl = '/Blog/GetMoreBlogPosts/?actualListSize=';
+        var offlineText = 'Sem conexão com a internet, exibindo posts offline.';
+        var onlineText = 'Detectamos uma conexão com a internet. Exibindo últimos posts.';
+        var slowInternetText = 'A conexão com a intenet está muito lenta, exibindo posts offline';
 
         var actualListSize = 0;
 
@@ -11,14 +14,28 @@
         }
 
         function loadBlogPost(id, url) {
+            var converter = new showdown.Converter();
+
             fetch(blogGetUrl + id)
                 .then(function (response) {
                     return response.text();
                 }).then(function (data) {
-                    var converter = new showdown.Converter();
                     var html = converter.makeHtml(data);
-                    template.showBlogItem(html, url);
-                    window.location = '#' + url;
+                    clientStorage.addPostBlog(id, data, url).then(function () {
+                        template.showBlogItem(html, url);
+                        window.location = '#' + url;
+                    });
+                }).catch(function () {
+                    $('#connection-status').html(offlineText);
+                    clientStorage.loadBlogPost(id, url).then(function (cacheData) {
+                        if (!cacheData) {
+                            $('#post-not-found').modal();
+                        } else {
+                            var html = converter.makeHtml(cacheData);
+                            template.showBlogItem(html, url);
+                            window.location = '#' + url;
+                        }
+                    });
                 });
         }
 
@@ -42,18 +59,18 @@
                         clientStorage.addPosts(data);
                         template.appendBlogList(data);
                         actualListSize += data.length;
-                        resolve('Detectamos uma conexão com a internet. Exibindo últimos posts.');
-                    }).catch(function (e) {
+                        resolve(onlineText);
+                    }).catch(function () {
                         clientStorage.getBlogPosts()
                             .then(function (posts) {
                                 template.appendBlogList(posts);
                                 actualListSize += posts.length;
                             });
-                        resolve('Sem conexão com a internet, exibindo posts offline.');
+                        resolve(offlineText);
                     });
 
                 setTimeout(function () {
-                    resolve('A conexão com a intenet está muito lenta, exibindo posts offline');
+                    resolve(slowInternetText);
                 }, 1000);
             });
         }

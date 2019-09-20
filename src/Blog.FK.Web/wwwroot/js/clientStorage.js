@@ -63,5 +63,27 @@
         return actualListSize;
     }
 
-    return { addPosts: addPosts, getBlogPosts: getBlogPosts, getBlogListSize: getBlogListSize };
+    function loadBlogPost(id, url) {
+        return new Promise(function (resolve, reject) {
+            blogInstance.getItem(id + url).then(function (text) {
+                resolve(text);
+            });
+        });
+    }
+
+    function addPostBlog(id, text, url) {
+        return new Promise(function (resolve, reject) {
+            blogInstance.setItem(id + url, text).then(function () {
+                resolve();
+            });
+        });
+    }
+
+    return {
+        addPosts: addPosts,
+        getBlogPosts: getBlogPosts,
+        getBlogListSize: getBlogListSize,
+        loadBlogPost: loadBlogPost,
+        addPostBlog: addPostBlog
+    };
 });

@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Blog para fins de estudo, assim como esse projeto." />
     <title>@ViewData["Title"] - Blog.FK.Web</title>
 
     <environment include="Development">
@@ -17,6 +18,7 @@
     </environment>
     <link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="manifest" href="~/manifest.json" />
 </head>
 <body>
     <main role="main">
@@ -26,22 +28,22 @@
                     <a class="navbar-brand" asp-controller="Home" asp-action="Index">Blog FK</a>
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Blog" asp-action="Index">Início<span class="sr-only">(current)</span></a>
+                            <a class="nav-link" asp-area="" asp-controller="Blog" asp-action="Index"><i class="fa fa-home"></i> Início<span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Blog" asp-action="Create">Criar Post<span class="sr-only">(current)</span>  </a>
+                            <a class="nav-link" asp-area="" asp-controller="Blog" asp-action="Create"><i class="fa fa-user-cog"></i> Criar Post<span class="sr-only">(current)</span>  </a>
                         </li>
                     </ul>
                     @if (@User.Identity.Name != null)
                     {
                         <form class="form-inline mt-2 mt-md-0" asp-controller="Account" asp-action="Logout">
                             <span class="mr-sm-2 text-white"><i class="fa fa-user"></i> @User.Identity.Name </span>
-                            <button class="btn btn-danger my-2 my-sm-0" type="submit"><i class="fa fa-sign-out-alt"></i></button>
+                            <button class="btn btn-danger my-2 my-sm-0" type="submit" title="Login"><i class="fa fa-sign-out-alt"></i></button>
                         </form>
                     }
                     else
                     {
-                        <form class="form-inline mt-2 mt-md-0" asp-controller="Account" asp-action="Login">
+                        <form class="form-inline mt-2 mt-md-0" asp-controller="Account" asp-action="Login" method="get">
                             <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-sign-in-alt"></i></button>
                         </form>
                     }
@@ -53,6 +55,12 @@
                 <div id="home-title">
                 </div>
             </div>
+        </div>
+        <div class="row" style="display:none;" id="install-container">
+            <div class="alert alert-info mb-0" role="alert">
+                <a href="javascript:;" onclick="pageEvents.tryAddHomeScreen();" class="btn-link no-style">Clique aqui</a>
+                para adicionar o Blog FK na sua home!
+            </div>            
         </div>
         @RenderBody()
     </main>
