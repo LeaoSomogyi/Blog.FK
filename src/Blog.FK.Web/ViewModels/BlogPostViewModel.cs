@@ -27,9 +27,10 @@ namespace Blog.FK.Web.ViewModels
         [Display(Name = "Conteúdo do Post")]
         [Required]
         public string Content { get; set; }
-
+        
         public DateTime CreatedAt { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}")]
         public DateTime UpdatedAt { get; set; }
 
         public BlogPostViewModel() { }

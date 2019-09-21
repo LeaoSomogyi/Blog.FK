@@ -1,0 +1,79 @@
+﻿@model IEnumerable<UserViewModel>
+
+@{
+    ViewData["Title"] = "Lista de Usuários";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Blog" asp-action="Index">Início</a></li>
+                    <li class="breadcrumb-item"><a asp-controller="Account" asp-action="Create">Gerenciamento de Usuários</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Lista de Usuários</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            @if (TempData["msg"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["msg"]
+                </div>
+            }
+        </div>
+    </div>
+    <table class="table table-borderless table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Última Atualização</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                var modalId = $"remove{user.Id}";
+
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.Name</td>
+                    <td>@user.Email</td>
+                    <td>@user.UpdatedAt</td>
+                    <td>
+                        <a class="mr-1" href="Edit/?id=@user.Id" title="Editar"><i class="fa fa-edit"></i></a>
+                        <a href="javascript:;" data-toggle="modal" data-target="#@modalId"><i class="fa fa-trash text-danger" title="Excluir"></i></a>
+
+                        <!-- Modal  -->
+                        <div class="modal fade" id="@modalId" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title"><i class="fa fa-exclamation-triangle text-danger"></i> Atenção!</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Você deseja realmente remover o usuário @user.Name ?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="Remove/?id=@user.Id" class="btn btn-success">Sim</a>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Não</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

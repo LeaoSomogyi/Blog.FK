@@ -1,0 +1,27 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "Erro!";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="text-danger">Ops!.</h1>
+            <h2 class="text-danger">Encontramos um problema ao processar a sua requisição.</h2>
+
+            @if (Model.ShowRequestId)
+            {
+                <p>
+                    <strong>Request ID:</strong> <code>@Model.RequestId</code>
+                </p>
+            }
+            
+            <p>
+                Não se preocupe, nós já fomos alertados e trabalharemos na solução o mais rápido possível.
+            </p>
+            <p>
+                Enquanto isso, confira <a asp-controller="Blog" asp-action="Index">outros posts</a> =D
+            </p>
+        </div>
+    </div>
+</div>

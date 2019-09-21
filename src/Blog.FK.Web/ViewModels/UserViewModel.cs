@@ -7,6 +7,8 @@ namespace Blog.FK.Web.ViewModels
     {
         public Guid Id { get; set; }
 
+        [Display(Name = "Nome")]
+        [Required]
         public string Name { get; set; }
 
         [Display(Name = "E-mail")]
@@ -19,6 +21,7 @@ namespace Blog.FK.Web.ViewModels
 
         public DateTime CreatedAt { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}")]
         public DateTime UpdatedAt { get; set; }
 
         public UserViewModel() { }

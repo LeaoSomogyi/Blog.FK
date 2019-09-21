@@ -5,16 +5,17 @@ let defferedPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     defferedPrompt = e;
-    $('#install-container').show();
+    $('#install-blog-fk').modal();
 });
 
 window.addEventListener('appinstalled', (evt) => {
     console.log('Blog FK foi adicionado à sua home com sucesso. Aproveite!!');
 });
 
-
 window.pageEvents = {
     loadBlogPost: function (id, url) {
+        $('#blog-list').hide();
+        $('#show-more').hide();
         blogService.loadBlogPost(id, url);
     },
     getMoreBlogPosts: function () {
@@ -25,10 +26,15 @@ window.pageEvents = {
         defferedPrompt.userChoice.then((choiceResult) => {
             if (choiceResult.outcome == 'accepted') {
                 console.log('App foi aceito para instalação o/');
-                $('#install-container').hide();
             }
             defferedPrompt = null;
         });
+    },
+    navigateBack: function () {
+        window.location = '#';
+        $('#show-more').show();
+        $('#blog-item-container').hide();
+        $('#blog-list').show();
     }
 };
 

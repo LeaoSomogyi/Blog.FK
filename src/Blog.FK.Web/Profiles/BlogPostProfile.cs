@@ -21,7 +21,7 @@ namespace Blog.FK.Web.Profiles
 
                     if (post.UpdatedAt.Equals(DateTime.MinValue))
                         post.UpdatedAt = DateTime.Now;
-                }); ;
+                });
         }
     }
 }

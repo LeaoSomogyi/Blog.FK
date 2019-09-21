@@ -1,15 +1,17 @@
-﻿@model BlogPostViewModel
+﻿@model UserViewModel
+
 @{
-    ViewData["Title"] = "Gerenciamento de Posts";
+    ViewData["Title"] = "Gerenciamento de Usuários";
 }
+
 <div class="container">
     <div class="row">
         <div class="col-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a asp-controller="Blog" asp-action="Index">Início</a></li>
-                    <li class="breadcrumb-item"><a asp-controller="Blog" asp-action="List">Lista de Posts</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Gerenciamento de Posts</li>
+                    <li class="breadcrumb-item"><a asp-controller="Account" asp-action="List">Lista de Usuários</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Gerenciamento de Usuários</li>
                 </ol>
             </nav>
         </div>
@@ -32,37 +34,37 @@
                 </div>
             }
 
-            @using (Html.BeginForm("SavePost", "Blog", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("SaveUser", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 <div class="form-group">
-                    @Html.LabelFor(p => p.Title)
+                    @Html.LabelFor(u => u.Name)
                     <div class="input-group mb-3">
                         <div class="input-group">
-                            <span class="input-group-text"><i class="fa fa-heading"></i></span>
-                            @Html.TextBoxFor(p => p.Title, new { @class = "form-control" })
+                            <span class="input-group-text"><i class="fa fa-user"></i></span>
+                            @Html.TextBoxFor(u => u.Name, new { @class = "form-control" })
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(p => p.ShortDescription)
+                    @Html.LabelFor(u => u.Email)
                     <div class="input-group mb-3">
                         <div class="input-group">
-                            <span class="input-group-text"><i class="fa fa-highlighter"></i></span>
-                            @Html.TextBoxFor(p => p.ShortDescription, new { @class = "form-control" })
+                            <span class="input-group-text"><i class="fa fa-at"></i></span>
+                            @Html.TextBoxFor(u => u.Email, new { @class = "form-control" })
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(p => p.Content)
+                    @Html.LabelFor(u => u.Password)
                     <div class="input-group mb-3">
                         <div class="input-group">
-                            <span class="input-group-text"><i class="fa fa-file-alt"></i></span>
-                            @Html.TextAreaFor(p => p.Content, new { @class = "form-control", rows = "10" })
+                            <span class="input-group-text"><i class="fa fa-user-lock"></i></span>
+                            @Html.PasswordFor(u => u.Password, new { @class = "form-control" })
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Salvar Post" class="btn btn-primary" />
+                    <input type="submit" value="Salvar Usuário" class="btn btn-primary" />
                 </div>
             }
         </div>

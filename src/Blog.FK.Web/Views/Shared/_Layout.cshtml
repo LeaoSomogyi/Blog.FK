@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Blog para fins de estudo, assim como esse projeto." />
-    <title>@ViewData["Title"] - Blog.FK.Web</title>
+    <title>@ViewData["Title"] - Blog FK</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -26,16 +26,27 @@
             <div class="container">
                 <div class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
                     <a class="navbar-brand" asp-controller="Home" asp-action="Index">Blog FK</a>
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Blog" asp-action="Index"><i class="fa fa-home"></i> Início<span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Blog" asp-action="Create"><i class="fa fa-user-cog"></i> Criar Post<span class="sr-only">(current)</span>  </a>
-                        </li>
-                    </ul>
                     @if (@User.Identity.Name != null)
                     {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Blog" asp-action="Index"><i class="fa fa-home"></i> Início<span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="dropdown-user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-alt"></i> Posts</a>
+                                <div class="dropdown-menu" aria-labelledby="dropdown-user">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Blog" asp-action="Create">Criar</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Blog" asp-action="List">Consultar</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="dropdown-user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-edit"></i> Usuários</a>
+                                <div class="dropdown-menu" aria-labelledby="dropdown-user">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Create">Criar</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="List">Consultar</a>
+                                </div>
+                            </li>
+                        </ul>
                         <form class="form-inline mt-2 mt-md-0" asp-controller="Account" asp-action="Logout">
                             <span class="mr-sm-2 text-white"><i class="fa fa-user"></i> @User.Identity.Name </span>
                             <button class="btn btn-danger my-2 my-sm-0" type="submit" title="Login"><i class="fa fa-sign-out-alt"></i></button>
@@ -43,6 +54,14 @@
                     }
                     else
                     {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Blog" asp-action="Index"><i class="fa fa-home"></i> Início<span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Blog" asp-action="Create"><i class="fa fa-user-cog"></i> Área Administrativa<span class="sr-only">(current)</span>  </a>
+                            </li>
+                        </ul>
                         <form class="form-inline mt-2 mt-md-0" asp-controller="Account" asp-action="Login" method="get">
                             <button class="btn btn-success my-2 my-sm-0" type="submit"><i class="fa fa-sign-in-alt"></i></button>
                         </form>
@@ -56,11 +75,22 @@
                 </div>
             </div>
         </div>
-        <div class="row" style="display:none;" id="install-container">
-            <div class="alert alert-info mb-0" role="alert">
-                <a href="javascript:;" onclick="pageEvents.tryAddHomeScreen();" class="btn-link no-style">Clique aqui</a>
-                para adicionar o Blog FK na sua home!
-            </div>            
+        <div class="modal" id="install-blog-fk" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Adicione o Blog FK na sua home!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Para isto, basta <a href="javascript:;" onclick="pageEvents.tryAddHomeScreen();" class="btn-link no-style">clicar aqui</a>!
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
         @RenderBody()
     </main>

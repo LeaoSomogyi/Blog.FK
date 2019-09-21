@@ -30,7 +30,7 @@
         </div>
     </script>
 
-    <div class="center">
+    <div class="center" id="show-more">
         <button class="btn btn-primary" onclick="pageEvents.getMoreBlogPosts()">
             Ver Mais
         </button>
@@ -42,10 +42,10 @@
         <div id="{{Link}}" class="blog-item">
             {{Content}}
         </div>
-        <a href="#home-title" class="btn btn-primary">Voltar</a>
+        <a href="javascript:;" onclick="pageEvents.navigateBack()" class="btn btn-primary">Voltar</a>
     </script>
 
-    <div class="modal" id="post-not-found" tabindex="-1" role="dialog">
+    <div class="modal fade" id="post-not-found" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -58,8 +58,8 @@
                     <p>Não encontramos este artigo no Cache. Você deseja que nós continuemos tentando fazer o download do artigo em segundo plano e te avisemos quando estiver disponível?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-dismiss="modal">Sim!</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Sim</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Não</button>
                 </div>
             </div>
         </div>

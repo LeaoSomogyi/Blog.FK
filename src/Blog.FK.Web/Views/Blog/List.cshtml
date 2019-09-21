@@ -1,0 +1,79 @@
+﻿@model IEnumerable<BlogPostViewModel>
+
+@{
+    ViewData["Title"] = "Lista de Posts";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Blog" asp-action="Index">Início</a></li>
+                    <li class="breadcrumb-item"><a asp-controller="Blog" asp-action="Create">Gerenciamento de Posts</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Lista de Posts</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            @if (TempData["msg"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["msg"]
+                </div>
+            }
+        </div>
+    </div>
+    <table class="table table-borderless table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Título</th>
+                <th>Descrição</th>
+                <th>Última Atualização</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var post in Model)
+            {
+                var modalId = $"remove{post.Id}";
+
+                <tr>
+                    <td>@post.Id</td>
+                    <td>@post.Title</td>
+                    <td>@post.ShortDescription</td>
+                    <td>@post.UpdatedAt</td>
+                    <td>
+                        <a class="mr-1" href="Edit/?id=@post.Id" title="Editar"><i class="fa fa-edit"></i></a>
+                        <a href="javascript:;" data-toggle="modal" data-target="#@modalId"><i class="fa fa-trash text-danger" title="Excluir"></i></a>
+
+                        <!-- Modal  -->
+                        <div class="modal fade" id="@modalId" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title"><i class="fa fa-exclamation-triangle text-danger"></i> Atenção!</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Você deseja realmente remover o post @post.Title ?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="Remove/?id=@post.Id" class="btn btn-success">Sim</a>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Não</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>

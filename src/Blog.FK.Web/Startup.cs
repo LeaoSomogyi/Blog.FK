@@ -82,6 +82,7 @@ namespace Blog.FK.Web
             }
             else
             {
+                app.UseExceptionHandler("/Blog/Error");
                 app.UseHsts();
             }
 
