@@ -32,6 +32,7 @@ namespace Blog.FK.Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(UserViewModel user)
         {
             var _user = _mapper.Map<User>(user);
@@ -78,6 +79,7 @@ namespace Blog.FK.Web.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> SaveUser(UserViewModel userViewModel)
         {
             var user = _mapper.Map<User>(userViewModel);
@@ -88,7 +90,7 @@ namespace Blog.FK.Web.Controllers
 
             TempData.Keep("msg");
 
-            return Redirect("Create");
+            return LocalRedirect("Create");
         }
 
         [HttpGet]

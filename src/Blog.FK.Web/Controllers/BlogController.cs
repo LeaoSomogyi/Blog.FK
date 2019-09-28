@@ -81,6 +81,7 @@ namespace Blog.FK.Web.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> SavePost(BlogPostViewModel blogPost)
         {
             var _blogPost = _mapper.Map<BlogPost>(blogPost);
@@ -91,7 +92,7 @@ namespace Blog.FK.Web.Controllers
 
             TempData.Keep("msg");
 
-            return Redirect("Create");
+            return LocalRedirect("Create");
         }
 
         [HttpGet]

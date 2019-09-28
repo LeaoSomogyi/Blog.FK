@@ -59,6 +59,18 @@ namespace Blog.FK.Application
             return blogPost;
         }
 
+        public override void Remove(BlogPost entity)
+        {
+            string postPath = $"{_environment.ContentRootPath}/wwwroot/Posts/{entity.Id}_post.md";
+
+            if (File.Exists(postPath))
+            {
+                File.Delete(postPath);
+            }
+
+            base.Remove(entity);
+        }
+
         #endregion
 
         #region "  IBlogPostApplication  "
