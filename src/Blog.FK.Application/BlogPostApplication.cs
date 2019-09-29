@@ -2,6 +2,7 @@
 using Blog.FK.Domain.Entities;
 using Blog.FK.Domain.Interfaces;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,15 +17,18 @@ namespace Blog.FK.Application
 
         private readonly IBlogPostRepository _blogPostRepository;
         private readonly IHostingEnvironment _environment;
+        private readonly string _postsPath;
 
         #endregion
 
         #region "  Constructors  "
 
-        public BlogPostApplication(IBlogPostRepository blogPostRepository, IHostingEnvironment environment) : base(blogPostRepository)
+        public BlogPostApplication(IBlogPostRepository blogPostRepository, IHostingEnvironment environment,
+            IConfiguration configuration) : base(blogPostRepository)
         {
             _blogPostRepository = blogPostRepository;
             _environment = environment;
+            _postsPath = $"{_environment.ContentRootPath}{configuration["PostsPath"]}";
         }
 
         #endregion
@@ -35,7 +39,12 @@ namespace Blog.FK.Application
         {
             var blogPost = await base.AddAsync(entity);
 
-            using (var fileStream = File.Create($"{_environment.ContentRootPath}/wwwroot/Posts/{blogPost.Id}_post.md"))
+            if (!Directory.Exists(_postsPath))
+            {
+                Directory.CreateDirectory(_postsPath);
+            }
+
+            using (var fileStream = File.Create($"{_postsPath}/{blogPost.Id}_post.md"))
             {
                 var bytes = new UTF8Encoding(true).GetBytes(blogPost.Content);
 
@@ -61,7 +70,7 @@ namespace Blog.FK.Application
 
         public override void Remove(BlogPost entity)
         {
-            string postPath = $"{_environment.ContentRootPath}/wwwroot/Posts/{entity.Id}_post.md";
+            string postPath = $"{_postsPath}/{entity.Id}_post.md";
 
             if (File.Exists(postPath))
             {

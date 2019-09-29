@@ -5,10 +5,8 @@ using Blog.FK.Web.Extensions;
 using Blog.FK.Web.Profiles;
 using Blog.FK.Web.Validators;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
@@ -16,16 +14,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace Blog.FK.Web
+namespace Blog.FK.Test
 {
-    public class Startup
+    public class TestStartup
     {
         public IConfiguration Configuration { get; }
 
-        public Startup(IConfiguration configuration)
+        public TestStartup(IConfiguration configuration)
         {
             Configuration = configuration;
-        }        
+        }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -36,9 +34,9 @@ namespace Blog.FK.Web
 
             services.AddAutoMapper(typeof(BlogPostProfile), typeof(UserProfile));
 
-            services.AddEntityFrameworkSqlServer().AddDbContext<BlogContext>(options =>
+            services.AddEntityFrameworkSqlite().AddDbContext<BlogContext>(options =>
             {
-                options.UseSqlServer(Configuration["BlogFKConn:ConnectionString"],
+                options.UseSqlite(Configuration["BlogFKConn:ConnectionString"],
                     sqlOptions => sqlOptions.MigrationsAssembly(typeof(BlogContext)
                     .GetTypeInfo().Assembly.GetName().Name));
             });
@@ -50,31 +48,6 @@ namespace Blog.FK.Web
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
             #endregion
-
-            #region "  Configure Auth  "
-
-            ConfigureAuth(services);
-
-            #endregion
-
-            services.AddSession();
-        }
-
-        private void ConfigureAuth(IServiceCollection services)
-        {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-
-            services.Configure<CookieTempDataProviderOptions>(options =>
-            {
-                options.Cookie.IsEssential = true;
-            });
-
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
-
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -88,12 +61,6 @@ namespace Blog.FK.Web
                 app.UseExceptionHandler("/Blog/Error");
                 app.UseHsts();
             }
-
-            app.UseHttpsRedirection();
-            app.UseCookiePolicy();
-            app.UseAuthentication();
-            app.UseSession();
-            app.UseStaticFiles();
 
             app.UseMvc(routes =>
             {

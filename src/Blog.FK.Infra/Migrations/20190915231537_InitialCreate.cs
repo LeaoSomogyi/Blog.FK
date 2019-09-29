@@ -14,7 +14,7 @@ namespace Blog.FK.Infra.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Title_BlogPost = table.Column<string>(type: "NVARCHAR(256)", nullable: false),
-                    ShortDescription_BlogPost = table.Column<string>(type: "NVARCHAR(MAX)", nullable: false),
+                    ShortDescription_BlogPost = table.Column<string>(type: "NVARCHAR(2048)", nullable: false),
                     CreatedAt_BlogPost = table.Column<DateTime>(type: "Datetime", nullable: false),
                     UpdatedAt_BlogPost = table.Column<DateTime>(type: "Datetime", nullable: false)
                 },
@@ -30,7 +30,7 @@ namespace Blog.FK.Infra.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Name_User = table.Column<string>(type: "NVARCHAR(256)", nullable: false),
                     Email_User = table.Column<string>(type: "NVARCHAR(256)", nullable: false),
-                    Password_User = table.Column<string>(type: "NVARCHAR(MAX)", nullable: false),
+                    Password_User = table.Column<string>(type: "NVARCHAR(2048)", nullable: false),
                     CreatedAt_User = table.Column<DateTime>(type: "Datetime", nullable: false),
                     UpdatedAt_User = table.Column<DateTime>(type: "Datetime", nullable: false)
                 },

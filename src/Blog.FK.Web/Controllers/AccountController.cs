@@ -2,6 +2,7 @@
 using Blog.FK.Application.Interfaces;
 using Blog.FK.Domain.Entities;
 using Blog.FK.Web.ViewModels;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -18,11 +19,13 @@ namespace Blog.FK.Web.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IUserApplication _userApp;
+        private readonly IValidator<UserViewModel> _validator;
 
-        public AccountController(IMapper mapper, IUserApplication userApp)
+        public AccountController(IMapper mapper, IUserApplication userApp, IValidator<UserViewModel> validator)
         {
             _mapper = mapper;
             _userApp = userApp;
+            _validator = validator;
         }
 
         public IActionResult Login()
@@ -35,6 +38,16 @@ namespace Blog.FK.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(UserViewModel user)
         {
+            var validatorResult = await _validator.ValidateAsync(user);
+
+            if (validatorResult?.Errors?.Count > 0)
+            {
+                TempData["error"] = validatorResult.Errors.Select(e => e.ErrorMessage).ToList();
+                TempData.Keep("error");
+
+                return LocalRedirect("/Account/Login");
+            }
+
             var _user = _mapper.Map<User>(user);
 
             var claimsPrincipal = await _userApp.AuthenticateAsync(_user);

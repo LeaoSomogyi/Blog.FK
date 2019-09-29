@@ -2,6 +2,7 @@
 using Blog.FK.Application.Interfaces;
 using Blog.FK.Domain.Entities;
 using Blog.FK.Web.ViewModels;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,11 +17,14 @@ namespace Blog.FK.Web.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IBlogPostApplication _blogApp;
+        private readonly IValidator<BlogPostViewModel> _blogPostValidator;
 
-        public BlogController(IMapper mapper, IBlogPostApplication blogApp)
+        public BlogController(IMapper mapper, IBlogPostApplication blogApp,
+            IValidator<BlogPostViewModel> validator)
         {
             _mapper = mapper;
             _blogApp = blogApp;
+            _blogPostValidator = validator;
         }
 
         [HttpGet]
@@ -84,15 +88,25 @@ namespace Blog.FK.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SavePost(BlogPostViewModel blogPost)
         {
-            var _blogPost = _mapper.Map<BlogPost>(blogPost);
+            var validatorResult = await _blogPostValidator.ValidateAsync(blogPost);
 
-            await _blogApp.AddAsync(_blogPost);
+            if (validatorResult?.Errors?.Count > 0)
+            {
+                TempData["error"] = validatorResult.Errors.Select(e => e.ErrorMessage).ToList();
+                TempData.Keep("error");
+            }
+            else
+            {
+                var _blogPost = _mapper.Map<BlogPost>(blogPost);
 
-            TempData["msg"] = "Post cadastrado com sucesso!";
+                await _blogApp.AddAsync(_blogPost);
 
-            TempData.Keep("msg");
+                TempData["msg"] = "Post cadastrado com sucesso!";
 
-            return LocalRedirect("Create");
+                TempData.Keep("msg");
+            }            
+
+            return LocalRedirect("/Blog/Create");
         }
 
         [HttpGet]

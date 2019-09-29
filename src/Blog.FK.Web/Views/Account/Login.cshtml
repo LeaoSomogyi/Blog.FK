@@ -17,6 +17,15 @@
                     @TempData["msg"]
                 </div>
             }
+            @if (TempData["error"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @foreach (var error in TempData["error"] as IEnumerable<string>)
+                    {
+                        <p>@error</p>
+                    }
+                </div>
+            }
             <label for="inputEmail" class="sr-only">E-mail</label>
             <div class="input-group mb-0">
                 <div class="input-group">
