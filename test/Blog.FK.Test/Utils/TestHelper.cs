@@ -8,6 +8,19 @@ namespace Blog.FK.Test.Utils
     public static class TestHelper
     {
         /// <summary>
+        /// Get a filled Blog.FK.Web.ViewModels.UserViewModel to Login
+        /// </summary>
+        /// <returns>Blog.FK.Web.ViewModels.UserViewModel</returns>
+        public static VM.UserViewModel GetLoginUserViewModel()
+        {
+            return new VM.UserViewModel()
+            {
+                Email = "leaosomogyi@hotmail.com",
+                Password = "12345678"
+            };
+        }
+
+        /// <summary>
         /// Get a filled Blog.FK.Web.ViewModels.UserViewModel
         /// </summary>
         /// <returns>Blog.FK.Web.ViewModels.UserViewModel</returns>
@@ -15,8 +28,9 @@ namespace Blog.FK.Test.Utils
         {
             return new VM.UserViewModel()
             {
-                Email = "leaosomogyi@hotmail.com",
-                Password = "12345678"
+                Name = "Test User",
+                Email = "test@user.com",
+                Password = "@abc123"
             };
         }
 

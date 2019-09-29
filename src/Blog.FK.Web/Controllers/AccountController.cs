@@ -38,7 +38,7 @@ namespace Blog.FK.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(UserViewModel user)
         {
-            var validatorResult = await _validator.ValidateAsync(user);
+            var validatorResult = await _validator.ValidateAsync(user, ruleSet: "Login");
 
             if (validatorResult?.Errors?.Count > 0)
             {
@@ -69,7 +69,7 @@ namespace Blog.FK.Web.Controllers
                          ExpiresUtc = DateTime.UtcNow.AddMinutes(30)
                      });
 
-                return RedirectToAction("Create", "Blog");
+                return LocalRedirect("/");
             }
         }
 
@@ -95,15 +95,25 @@ namespace Blog.FK.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SaveUser(UserViewModel userViewModel)
         {
-            var user = _mapper.Map<User>(userViewModel);
+            var validatorResult = await _validator.ValidateAsync(userViewModel, ruleSet: "NewUser");
 
-            await _userApp.AddAsync(user);
+            if (validatorResult?.Errors?.Count > 0)
+            {
+                TempData["error"] = validatorResult.Errors.Select(e => e.ErrorMessage).ToList();
+                TempData.Keep("error");
+            }
+            else
+            {
+                var user = _mapper.Map<User>(userViewModel);
 
-            TempData["msg"] = "Usuário cadastrado com sucesso!";
+                await _userApp.AddAsync(user);
 
-            TempData.Keep("msg");
+                TempData["msg"] = "Usuário cadastrado com sucesso!";
 
-            return LocalRedirect("Create");
+                TempData.Keep("msg");
+            }           
+
+            return LocalRedirect("/Account/Create");
         }
 
         [HttpGet]

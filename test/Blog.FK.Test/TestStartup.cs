@@ -5,8 +5,10 @@ using Blog.FK.Web.Extensions;
 using Blog.FK.Web.Profiles;
 using Blog.FK.Web.Validators;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +50,30 @@ namespace Blog.FK.Test
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
             #endregion
+
+            #region "  Configure Auth  "
+
+            ConfigureAuth(services);
+
+            #endregion
+
+            services.AddSession();
+        }
+
+        private void ConfigureAuth(IServiceCollection services)
+        {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.Configure<CookieTempDataProviderOptions>(options =>
+            {
+                options.Cookie.IsEssential = true;
+            });
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -61,6 +87,10 @@ namespace Blog.FK.Test
                 app.UseExceptionHandler("/Blog/Error");
                 app.UseHsts();
             }
+
+            app.UseCookiePolicy();
+            app.UseAuthentication();
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

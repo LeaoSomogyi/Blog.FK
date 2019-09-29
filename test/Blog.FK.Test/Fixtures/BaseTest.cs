@@ -9,7 +9,7 @@ namespace Blog.FK.Test.Fixtures
         #region "  Properties  "
 
         /// <summary>
-        /// TestServer created by Startup.cs
+        /// TestServer created by Startup.cs, only used to retrieve DI services
         /// </summary>
         public TestServer Server { get; private set; }
 
