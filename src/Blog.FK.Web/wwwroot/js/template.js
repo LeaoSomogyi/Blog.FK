@@ -27,6 +27,7 @@
         template = template.replace('{{Content}}', html);
 
         $('#blog-item-container').html(template);
+        $('#blog-item-container').show();
     }
 
     return { generateBlogItem: generateBlogItem, appendBlogList: appendBlogList, showBlogItem: showBlogItem };

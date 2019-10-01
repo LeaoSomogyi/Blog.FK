@@ -11,8 +11,6 @@
 
             posts.map(function (item) {
                 keyPair.push({ key: item.id, value: item });
-
-                actualListSize += 1;
             });
 
             blogInstance.setItems(keyPair)
@@ -25,6 +23,8 @@
     function getBlogPosts() {
         return new Promise(function (resolve, reject) {
             blogInstance.keys().then(function (keys) {
+                keys = keys.filter(function (k) { return k.length === 36; });
+
                 var index = keys.indexOf(actualListSize);
 
                 if (index == -1) {
@@ -42,18 +42,13 @@
 
                 blogInstance.getItems(_keys).then(function (results) {
 
-                    if (Object.keys(results).length === actualListSize) {
-                        resolve([]);
-                    }
-                    else {
-                        var posts = Object.keys(results).map(function (k) {
-                            return results[k];
-                        }).reverse();
+                    var posts = Object.keys(results).map(function (k) {
+                        return results[k];
+                    }).reverse();
 
-                        actualListSize = + posts.length;
+                    actualListSize = String(posts[posts.length - 1].id);
 
-                        resolve(posts);
-                    }
+                    resolve(posts);
                 });
             });
         });

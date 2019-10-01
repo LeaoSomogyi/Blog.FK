@@ -16,20 +16,24 @@
         function loadBlogPost(id, url) {
             var converter = new showdown.Converter();
 
-            fetch(blogGetUrl + id)
+            fetchPromise(id, blogGetUrl, url, true)
                 .then(function (response) {
                     return response.text();
-                }).then(function (data) {
+                })
+                .then(function (text) {
                     var html = converter.makeHtml(data);
                     clientStorage.addPostBlog(id, data, url).then(function () {
                         template.showBlogItem(html, url);
                         window.location = '#' + url;
                     });
-                }).catch(function () {
+                })
+                .catch(function () {
                     $('#connection-status').html(offlineText);
                     clientStorage.loadBlogPost(id, url).then(function (cacheData) {
                         if (!cacheData) {
-                            $('#post-not-found').modal();
+                            var modalContent = $('#post-not-found').html().replace(/{{Id}}/g, id).replace(/{{Link}}/g, url);
+
+                            $('#post-not-found').html(modalContent).modal();
                         } else {
                             var html = converter.makeHtml(cacheData);
                             template.showBlogItem(html, url);
@@ -44,34 +48,47 @@
         }
 
         function loadData(url) {
-            fetchPromise(url)
+            fetchPromise(null, url, false)
                 .then(function (status) {
                     $('#connection-status').html(status);
+
+                    clientStorage.getBlogPosts()
+                        .then(function (posts) {
+                            template.appendBlogList(posts);
+                            actualListSize += posts.length;
+                        });
                 });
         }
 
-        function fetchPromise(url) {
+        function fetchPromise(id, apiUrl, url, text) {
             return new Promise(function (resolve, reject) {
-                fetch(url)
-                    .then(function (response) {
-                        return response.json();
-                    }).then(function (data) {
-                        clientStorage.addPosts(data);
-                        template.appendBlogList(data);
-                        actualListSize += data.length;
-                        resolve(onlineText);
-                    }).catch(function () {
-                        clientStorage.getBlogPosts()
-                            .then(function (posts) {
-                                template.appendBlogList(posts);
-                                actualListSize += posts.length;
+                var endpoint = id === null ? apiUrl : apiUrl + id;
+
+                fetch(endpoint)
+                    .then(function (data) {
+
+                        var resolveSuccess = function () {
+                            resolve(onlineText);
+                        };
+
+                        if (text) {
+                            data.text().then(function (text) {
+                                clientStorage.addPostBlog(id, text, url).then(resolveSuccess);
                             });
+                        }
+                        else {
+                            data.json().then(function (jsonData) {
+                                clientStorage.addPosts(jsonData).then(resolveSuccess);
+                            });
+                        }
+
+                    }).catch(function () {
                         resolve(offlineText);
                     });
 
                 setTimeout(function () {
                     resolve(slowInternetText);
-                }, 1000);
+                }, 5000);
             });
         }
 

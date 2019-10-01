@@ -1,4 +1,5 @@
 ﻿"use strict";
+importScripts('lib/localforage/localforage.min.js');
 
 var cacheName = 'v1Cache';
 
@@ -35,6 +36,15 @@ var blogCacheFiles = [
     '/images/icons/icon-512x512.png'
 ];
 
+function timeout(ms, promise) {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            reject();
+        }, ms);
+        promise.then(resolve, reject);
+    });
+}
+
 self.addEventListener('install', function (event) {
     console.log("SW: Evento de Instalacao");
     self.skipWaiting();
@@ -67,7 +77,7 @@ self.addEventListener('activate', function (event) {
 self.addEventListener('fetch', function (event) {
     console.log('SW: Fetch ' + event.request.url);
 
-    if (event.request.url.toLowerCase().includes("/blog")) {
+    if (event.request.url.toLowerCase().includes("/")) {
         console.log('[ServiceWorker] online - get online ' + event.request.url);
         event.respondWith(fetch(event.request));
     } else {
@@ -78,4 +88,26 @@ self.addEventListener('fetch', function (event) {
             })
         );
     }
+});
+
+self.addEventListener('backgroundfetchsuccess', (event) => {
+    const bgFetch = event.registration;
+
+    event.waitUntil(async function () {
+        var blogInstance = localforage.createInstance({ name: 'blog' });
+
+        const records = await bgFetch.matchAll();
+
+        const promises = records.map(async (record) => {
+            const response = await record.responseReady;
+
+            response.text().then(function (text) {
+                console.log('Text retrieved - storing in IndexedDB');
+                blogInstance.setItem(bgFetch.id, text);
+            });
+        });
+
+        await Promise.all(promises);
+        event.updateUI({ title: 'Download Concluído' });
+    });
 });

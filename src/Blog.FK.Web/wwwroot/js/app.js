@@ -12,10 +12,14 @@ window.addEventListener('appinstalled', (evt) => {
     console.log('Blog FK foi adicionado à sua home com sucesso. Aproveite!!');
 });
 
+if ('BackgroundFetchManager' in self) {
+    console.log('Este navegador suporta downloads em segundo plano!');
+}
+
 window.pageEvents = {
     loadBlogPost: function (id, url) {
         $('#blog-list').hide();
-        $('#show-more').hide();
+        $('#show-more').hide();        
         blogService.loadBlogPost(id, url);
     },
     getMoreBlogPosts: function () {
@@ -35,6 +39,35 @@ window.pageEvents = {
         $('#show-more').show();
         $('#blog-item-container').hide();
         $('#blog-list').show();
+    },
+    setBackgroundFetch: function (id, url) {
+        navigator.serviceWorker.ready.then(async (swReg) => {
+            const bgFetch = await swReg.backgroundFetch.fetch(id+url, ['/Blog/LoadBlogPost/?id=' + id], {
+                title: id,
+                icons: [{
+                    sizes: '192x192',
+                    src: 'images/icons/icon-192x192.png',
+                    type: 'image/png'
+                }],
+                downloadTotal: 15000
+            });
+
+            bgFetch.addEventListener('progress', () => {
+                if (!bgFetch.downloadTotal) return;
+
+                const percent = Math.round(bgFetch.downloaded / bgFetch.downloadTotal * 100);
+                console.log('Download progress: ' + percent + '%');
+                console.log('Download status: ' + bgFetch.result);
+
+                $('.start-download').hide();
+                $('#download-status').show();
+                $('#download-status > .progress > .progress-bar').css('width', percent + '%');
+
+                if (bgFetch.result === 'success') {
+                    $('#download-status > .text-success').show();
+                }
+            });
+        });
     }
 };
 
