@@ -45,23 +45,23 @@ function timeout(ms, promise) {
     });
 }
 
-self.addEventListener('install', function (event) {
-    console.log("SW: Evento de Instalacao");
-    self.skipWaiting();
+self.addEventListener('install', (event) => {
+    console.log("[Service Worker]: Installing event");
     event.waitUntil(
-        caches.open(cacheName)
-            .then(function (cache) {
-                return cache.addAll(blogCacheFiles);
-            })
+        caches.open(cacheName).then((cache) => {
+            return cache.addAll(blogCacheFiles);
+        })
+            .then(() => self.skipWaiting())
     );
 });
 
-self.addEventListener('activate', function (event) {
-    console.log('SW: Ativando...');
-    self.clients.claim();
-    event.waitUntil(
+
+self.addEventListener('activate', (event) => {
+    console.log('[Service Worker]: Activating...');
+    self.clients.claim()
+    event.waitUntil(() => {
         caches.keys()
-            .then(function (cacheKeys) {
+            .then((cacheKeys) => {
                 var deletePromises = [];
 
                 for (var i = 0; i < cacheKeys.length; i++) {
@@ -71,23 +71,20 @@ self.addEventListener('activate', function (event) {
                 }
 
                 return Promise.all(deletePromises);
-            }));
+            });
+    });
 });
 
-self.addEventListener('fetch', function (event) {
-    console.log('SW: Fetch ' + event.request.url);
+self.addEventListener('fetch', (event) => {
+    console.log('[Service Worker]: Fetch ' + event.request.url);
 
-    if (event.request.url.toLowerCase().includes("/")) {
-        console.log('[ServiceWorker] online - get online ' + event.request.url);
-        event.respondWith(fetch(event.request));
-    } else {
-        event.respondWith(
-            timeout(1000, fetch(event.request)).catch(function () {
-                console.log('[ServiceWorker] offline - get from cache: ' + event.request.url);
-                return caches.match(event.request);
+    event.respondWith(
+        caches.open(cacheName)
+            .then(cache => cache.match(event.request, { ignoreSearch: true }))
+            .then(response => {
+                return response || fetch(event.request);
             })
-        );
-    }
+    );
 });
 
 self.addEventListener('backgroundfetchsuccess', (event) => {

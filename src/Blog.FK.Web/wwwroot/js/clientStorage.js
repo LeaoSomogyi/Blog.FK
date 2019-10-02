@@ -6,24 +6,24 @@
     var limit = 3;
 
     function addPosts(posts) {
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
             var keyPair = [];
 
-            posts.map(function (item) {
+            posts.map((item) => {
                 keyPair.push({ key: item.id, value: item });
             });
 
             blogInstance.setItems(keyPair)
-                .then(function () {
+                .then(() => {
                     resolve();
                 });
         });
     }
 
     function getBlogPosts() {
-        return new Promise(function (resolve, reject) {
-            blogInstance.keys().then(function (keys) {
-                keys = keys.filter(function (k) { return k.length === 36; });
+        return new Promise((resolve, reject) => {
+            blogInstance.keys().then((keys) => {
+                keys = keys.filter((k) => { return k.length === 36; });
 
                 var index = keys.indexOf(actualListSize);
 
@@ -40,9 +40,9 @@
                 var limitAdjusted = start < 0 ? index : limit;
                 var _keys = keys.splice(Math.max(0, start), limitAdjusted);
 
-                blogInstance.getItems(_keys).then(function (results) {
+                blogInstance.getItems(_keys).then((results) => {
 
-                    var posts = Object.keys(results).map(function (k) {
+                    var posts = Object.keys(results).map((k) => {
                         return results[k];
                     }).reverse();
 
@@ -59,16 +59,16 @@
     }
 
     function loadBlogPost(id, url) {
-        return new Promise(function (resolve, reject) {
-            blogInstance.getItem(id + url).then(function (text) {
+        return new Promise((resolve, reject) => {
+            blogInstance.getItem(id + url).then((text) => {
                 resolve(text);
             });
         });
     }
 
     function addPostBlog(id, text, url) {
-        return new Promise(function (resolve, reject) {
-            blogInstance.setItem(id + url, text).then(function () {
+        return new Promise((resolve, reject) => {
+            blogInstance.setItem(id + url, text).then(() => {
                 resolve();
             });
         });

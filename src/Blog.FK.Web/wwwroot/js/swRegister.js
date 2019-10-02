@@ -1,7 +1,7 @@
 ﻿if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js').then(function (registration) {
+    navigator.serviceWorker.register('/sw.js').then((registration) => {
         console.log('ServiceWorker registrado com sucesso no escopo: ', registration.scope);
-    }, function (err) {
+    }, (err) => {
         console.log('Falha no registro do ServiceWorker: ', err);
     });
 }

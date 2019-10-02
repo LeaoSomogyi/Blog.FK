@@ -43,7 +43,7 @@ window.pageEvents = {
     setBackgroundFetch: function (id, url) {
         navigator.serviceWorker.ready.then(async (swReg) => {
             const bgFetch = await swReg.backgroundFetch.fetch(id+url, ['/Blog/LoadBlogPost/?id=' + id], {
-                title: id,
+                title: url,
                 icons: [{
                     sizes: '192x192',
                     src: 'images/icons/icon-192x192.png',
@@ -59,7 +59,7 @@ window.pageEvents = {
                 console.log('Download progress: ' + percent + '%');
                 console.log('Download status: ' + bgFetch.result);
 
-                $('.start-download').hide();
+                $('.modal-footer').hide();
                 $('#download-status').show();
                 $('#download-status > .progress > .progress-bar').css('width', percent + '%');
 

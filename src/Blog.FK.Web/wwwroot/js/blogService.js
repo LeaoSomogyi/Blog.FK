@@ -17,21 +17,24 @@
             var converter = new showdown.Converter();
 
             fetchPromise(id, blogGetUrl, url, true)
-                .then(function (response) {
+                .then((response) => {
                     return response.text();
                 })
-                .then(function (text) {
+                .then((text) => {
                     var html = converter.makeHtml(data);
-                    clientStorage.addPostBlog(id, data, url).then(function () {
+                    clientStorage.addPostBlog(id, data, url).then(() => {
                         template.showBlogItem(html, url);
                         window.location = '#' + url;
                     });
                 })
-                .catch(function () {
+                .catch(() => {
                     $('#connection-status').html(offlineText);
-                    clientStorage.loadBlogPost(id, url).then(function (cacheData) {
+                    clientStorage.loadBlogPost(id, url).then((cacheData) => {
                         if (!cacheData) {
                             var modalContent = $('#post-not-found').html().replace(/{{Id}}/g, id).replace(/{{Link}}/g, url);
+
+                            $('.modal-footer').show();
+                            $('#download-status').hide();
 
                             $('#post-not-found').html(modalContent).modal();
                         } else {
@@ -49,11 +52,11 @@
 
         function loadData(url) {
             fetchPromise(null, url, false)
-                .then(function (status) {
+                .then((status) => {
                     $('#connection-status').html(status);
 
                     clientStorage.getBlogPosts()
-                        .then(function (posts) {
+                        .then((posts) => {
                             template.appendBlogList(posts);
                             actualListSize += posts.length;
                         });
@@ -61,32 +64,32 @@
         }
 
         function fetchPromise(id, apiUrl, url, text) {
-            return new Promise(function (resolve, reject) {
+            return new Promise((resolve, reject) => {
                 var endpoint = id === null ? apiUrl : apiUrl + id;
 
                 fetch(endpoint)
-                    .then(function (data) {
+                    .then((data) => {
 
                         var resolveSuccess = function () {
                             resolve(onlineText);
                         };
 
                         if (text) {
-                            data.text().then(function (text) {
+                            data.text().then((text) => {
                                 clientStorage.addPostBlog(id, text, url).then(resolveSuccess);
                             });
                         }
                         else {
-                            data.json().then(function (jsonData) {
+                            data.json().then((jsonData) => {
                                 clientStorage.addPosts(jsonData).then(resolveSuccess);
                             });
                         }
 
-                    }).catch(function () {
+                    }).catch(() => {
                         resolve(offlineText);
                     });
 
-                setTimeout(function () {
+                setTimeout(() => {
                     resolve(slowInternetText);
                 }, 5000);
             });

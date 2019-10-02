@@ -56,19 +56,19 @@
                 </div>
                 <div class="modal-body">
                     <p>Não encontramos este artigo no Cache. Você deseja que nós continuemos tentando fazer o download do artigo em segundo plano e te avisemos quando estiver disponível?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success start-download" onclick="pageEvents.setBackgroundFetch('{{Id}}', '{{Link}}')">Sim</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Não</button>
                     <div id="download-status" style="display: none;">
                         <div class="progress">
                             <div class="progress-bar" style="width: 0%;"></div>
                         </div>
                         <div class="text-success">
                             <p>Pronto! Seu artigo está disponível para leitura</p>
-                            <button class="btn btn-success" onclick="pageEvents.loadBlogPost('{{Id}}', '{{Link}}');">Ler</button>
+                            <button class="btn btn-success" data-dismiss="modal" onclick="pageEvents.loadBlogPost('{{Id}}', '{{Link}}');">Ler</button>
                         </div>
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="pageEvents.setBackgroundFetch('{{Id}}', '{{Link}}')">Sim</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Não</button>                    
                 </div>
             </div>
         </div>
