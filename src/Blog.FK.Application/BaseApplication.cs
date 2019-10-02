@@ -49,7 +49,10 @@ namespace Blog.FK.Application
 
         public virtual void Remove(TEntity entity)
         {
-            _baseRepository.Remove(entity);
+            if (entity != null)
+            {
+                _baseRepository.Remove(entity);
+            }
         }
 
         public virtual async Task<IEnumerable<TEntity>> SearchAsync(Expression<Func<TEntity, bool>> expression)

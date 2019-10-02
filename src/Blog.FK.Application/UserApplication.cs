@@ -23,8 +23,6 @@ namespace Blog.FK.Application
             _userRepository = userRepository;
         }
 
-        public object CookieAuthenticationDefaults { get; private set; }
-
         #endregion
 
         #region "  IUserApplication  "

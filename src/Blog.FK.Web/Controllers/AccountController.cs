@@ -58,7 +58,7 @@ namespace Blog.FK.Web.Controllers
 
                 TempData.Keep("msg");
 
-                return RedirectToAction("Login");
+                return LocalRedirect("/Account/Login");
             }
             else
             {
@@ -78,7 +78,7 @@ namespace Blog.FK.Web.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            return RedirectToAction("Login");
+            return LocalRedirect("/Account/Login");
         }
 
         #region "  Admin Actions  "
@@ -150,7 +150,17 @@ namespace Blog.FK.Web.Controllers
 
             TempData.Keep("msg");
 
-            return RedirectToAction("List");
+            return LocalRedirect("/Account/List");
+        }
+
+        #endregion
+
+        #region "  Overrides  "
+
+        protected override void Dispose(bool disposing)
+        {
+            _userApp.Dispose();
+            base.Dispose(disposing);
         }
 
         #endregion

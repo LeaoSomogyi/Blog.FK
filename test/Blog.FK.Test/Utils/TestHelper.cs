@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.TestHost;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.TestHost;
 using System;
 using System.Linq;
 using VM = Blog.FK.Web.ViewModels;
@@ -86,6 +87,37 @@ namespace Blog.FK.Test.Utils
         public static TService GetService<TService>(this TestServer server) where TService : class
         {
             return server?.Host?.Services?.GetService(typeof(TService)) as TService;
+        }
+
+        /// <summary>
+        /// Cast an IActionResult to typed class
+        /// </summary>
+        /// <typeparam name="T">Entity to parse the result</typeparam>
+        /// <param name="actionResult">Controller response</param>
+        /// <returns>The typed T or null</returns>
+        public static T CastActionResult<T>(this IActionResult actionResult) where T : class
+        {
+            return actionResult as T;
+        }
+
+        /// <summary>
+        /// Get the Model property of the Microsoft.AspNetCore.Mvc.ViewResult
+        /// </summary>
+        /// <typeparam name="T">Entity to parse the result</typeparam>
+        /// <param name="actionResult">Controller response</param>
+        /// <returns>The typed Model T or null</returns>
+        public static T GetModelFromViewResultResponse<T>(this IActionResult actionResult) where T : class
+        {
+            var viewResult = actionResult.CastActionResult<ViewResult>();
+
+            if (viewResult != null)
+            {
+                return viewResult.Model as T;
+            }
+            else
+            {
+                return default;
+            }
         }
     }
 }

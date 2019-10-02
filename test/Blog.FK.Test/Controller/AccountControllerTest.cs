@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -49,6 +50,26 @@ namespace Blog.FK.Test.Controller
         #region "  Ok  "
 
         [Fact]
+        public void Create_Ok()
+        {
+            //Act
+            var response = _accountController.Create();
+
+            //Assert
+            Assert.True(response.CastActionResult<ViewResult>() != null);
+        }
+
+        [Fact]
+        public void LoginView_Ok()
+        {
+            //Act
+            var response = _accountController.Login();
+
+            //Assert
+            Assert.True(response.CastActionResult<ViewResult>() != null);
+        }
+
+        [Fact]
         public async Task Login_Ok()
         {
             //Arrange
@@ -63,6 +84,17 @@ namespace Blog.FK.Test.Controller
         }
 
         [Fact]
+        public async Task Logout_Ok()
+        {
+            //Act
+            var response = await _accountController.Logout();
+
+            //Assert
+            Assert.True(response is LocalRedirectResult);
+            Assert.Empty(_accountController.HttpContext.User.Claims);
+        }
+
+        [Fact]
         public async Task SaveUser_Ok()
         {
             //Arrange
@@ -71,8 +103,70 @@ namespace Blog.FK.Test.Controller
             //Act
             var response = await _accountController.SaveUser(user);
 
+            //Need to force Dispose to save new User and use on further tests
+            _accountController.Dispose();
+
             //Assert
             Assert.True(response is LocalRedirectResult);
+            Assert.True(_accountController.TempData["msg"] != null);
+            Assert.True(_accountController.TempData["error"] == null);
+        }
+
+        [Fact]
+        public async Task List_Ok()
+        {
+            //Act
+            var response = await _accountController.List();
+
+            //Assert
+            Assert.True(response is ViewResult);
+            Assert.True(response.GetModelFromViewResultResponse<IEnumerable<UserViewModel>>() != null);
+        }
+
+        [Fact]
+        public async Task Edit_Ok()
+        {
+            //Arrange
+            var response = await _accountController.List();
+
+            var users = response.GetModelFromViewResultResponse<IEnumerable<UserViewModel>>();
+
+            var user = users.FirstOrDefault();
+
+            //Act
+            var editResponse = await _accountController.Edit(user.Id);
+
+            var editUser = editResponse.GetModelFromViewResultResponse<UserViewModel>();
+
+            //Assert
+            Assert.True(editResponse is ViewResult);
+            Assert.True(editUser != null);
+            Assert.Equal(user.Id, editUser.Id);
+        }
+
+        [Fact]
+        public async Task Remove_Ok()
+        {
+            //Arrange
+            var response = await _accountController.List();
+
+            var users = response.GetModelFromViewResultResponse<IEnumerable<UserViewModel>>();
+
+            var user = users.LastOrDefault();
+
+            //Act
+            var removeResponse = await _accountController.Remove(user.Id);
+
+            //Need to force Dispose to commit delete transaction
+            _accountController.Dispose();
+
+            var listResponse = await _accountController.List();
+
+            var newUserList = listResponse.GetModelFromViewResultResponse<IEnumerable<UserViewModel>>();
+
+            //Assert
+            Assert.True(removeResponse is LocalRedirectResult);
+            Assert.Empty(newUserList);
             Assert.True(_accountController.TempData["msg"] != null);
             Assert.True(_accountController.TempData["error"] == null);
         }
