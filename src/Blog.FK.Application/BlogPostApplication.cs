@@ -58,7 +58,7 @@ namespace Blog.FK.Application
         {
             var blogPost = await base.FindAsync(id);
 
-            using (var streamReader = new StreamReader($"{_environment.ContentRootPath}/wwwroot/Posts/{blogPost.Id}_post.md"))
+            using (var streamReader = new StreamReader($"{_postsPath}/{blogPost.Id}_post.md"))
             {
                 var content = await streamReader.ReadToEndAsync();
 

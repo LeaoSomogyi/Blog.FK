@@ -15,9 +15,15 @@ namespace Blog.FK.Web.Controllers
 {
     public class BlogController : Controller
     {
+        #region "  Applications & Services  "
+
         private readonly IMapper _mapper;
         private readonly IBlogPostApplication _blogApp;
         private readonly IValidator<BlogPostViewModel> _blogPostValidator;
+
+        #endregion
+
+        #region "  Constructors  "
 
         public BlogController(IMapper mapper, IBlogPostApplication blogApp,
             IValidator<BlogPostViewModel> validator)
@@ -26,6 +32,10 @@ namespace Blog.FK.Web.Controllers
             _blogApp = blogApp;
             _blogPostValidator = validator;
         }
+
+        #endregion
+
+        #region "  Public Actions  "
 
         [HttpGet]
         public IActionResult Index()
@@ -44,7 +54,9 @@ namespace Blog.FK.Web.Controllers
         {
             var posts = await _blogApp.GetAllAsync();
 
-            return Json(posts.OrderByDescending(p => p.CreatedAt).Take(3));
+            var _posts = _mapper.Map<IEnumerable<BlogPostViewModel>>(posts);
+
+            return Json(_posts.OrderByDescending(p => p.CreatedAt).Take(3));
         }
 
         [HttpGet]
@@ -60,8 +72,12 @@ namespace Blog.FK.Web.Controllers
         {
             var blogPosts = await _blogApp.GetMoreBlogPostsAsync(actualListSize);
 
-            return Json(blogPosts);
+            var _blogPosts = _mapper.Map<IEnumerable<BlogPostViewModel>>(blogPosts);
+
+            return Json(_blogPosts);
         }
+
+        #endregion
 
         #region "  Admin Actions  "
 
@@ -132,7 +148,17 @@ namespace Blog.FK.Web.Controllers
 
             TempData.Keep("msg");
 
-            return RedirectToAction("List");
+            return LocalRedirect("/Blog/List");
+        }
+
+        #endregion
+
+        #region "  Overrides  "
+
+        protected override void Dispose(bool disposing)
+        {
+            _blogApp.Dispose();
+            base.Dispose(disposing);
         }
 
         #endregion

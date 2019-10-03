@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.TestHost;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 using VM = Blog.FK.Web.ViewModels;
@@ -113,6 +114,26 @@ namespace Blog.FK.Test.Utils
             if (viewResult != null)
             {
                 return viewResult.Model as T;
+            }
+            else
+            {
+                return default;
+            }
+        }
+
+        /// <summary>
+        /// Cast Microsoft.AspNetCore.Mvc.JsonResult to typed class
+        /// </summary>
+        /// <typeparam name="T">Entity to parse the result</typeparam>
+        /// <param name="actionResult">Controller response</param>
+        /// <returns>The typed object casted from JSON</returns>
+        public static T CastJsonResult<T>(this IActionResult actionResult) where T : class
+        {
+            var jsonResult = actionResult.CastActionResult<JsonResult>();
+
+            if (jsonResult != null)
+            {
+                return jsonResult.Value as T;
             }
             else
             {

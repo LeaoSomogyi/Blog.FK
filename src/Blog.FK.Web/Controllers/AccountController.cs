@@ -17,9 +17,15 @@ namespace Blog.FK.Web.Controllers
 {
     public class AccountController : Controller
     {
+        #region "  Applications & Services  "
+
         private readonly IMapper _mapper;
         private readonly IUserApplication _userApp;
         private readonly IValidator<UserViewModel> _validator;
+
+        #endregion
+
+        #region "  Constructors  "
 
         public AccountController(IMapper mapper, IUserApplication userApp, IValidator<UserViewModel> validator)
         {
@@ -27,6 +33,10 @@ namespace Blog.FK.Web.Controllers
             _userApp = userApp;
             _validator = validator;
         }
+
+        #endregion
+
+        #region "  Public Actions  "
 
         public IActionResult Login()
         {
@@ -80,6 +90,8 @@ namespace Blog.FK.Web.Controllers
 
             return LocalRedirect("/Account/Login");
         }
+
+        #endregion
 
         #region "  Admin Actions  "
 

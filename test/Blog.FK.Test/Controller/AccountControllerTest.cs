@@ -166,7 +166,7 @@ namespace Blog.FK.Test.Controller
 
             //Assert
             Assert.True(removeResponse is LocalRedirectResult);
-            Assert.Empty(newUserList);
+            Assert.True(users.Count() != newUserList.Count());
             Assert.True(_accountController.TempData["msg"] != null);
             Assert.True(_accountController.TempData["error"] == null);
         }
