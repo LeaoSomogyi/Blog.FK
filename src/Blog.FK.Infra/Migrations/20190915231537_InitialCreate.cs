@@ -1,6 +1,6 @@
-﻿using System;
-using Blog.FK.Domain.Extensions;
+﻿using Blog.FK.Domain.Extensions;
 using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace Blog.FK.Infra.Migrations
 {

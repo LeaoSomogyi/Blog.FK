@@ -120,7 +120,7 @@ namespace Blog.FK.Web.Controllers
                 TempData["msg"] = "Post cadastrado com sucesso!";
 
                 TempData.Keep("msg");
-            }            
+            }
 
             return LocalRedirect("/Blog/Create");
         }

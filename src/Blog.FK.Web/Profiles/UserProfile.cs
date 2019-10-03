@@ -11,7 +11,7 @@ namespace Blog.FK.Web.Profiles
         {
             CreateMap<User, UserViewModel>();
             CreateMap<UserViewModel, User>()
-                .AfterMap((vm, user) => 
+                .AfterMap((vm, user) =>
                 {
                     if (user.Id.Equals(Guid.Empty))
                         user.Id = Guid.NewGuid();

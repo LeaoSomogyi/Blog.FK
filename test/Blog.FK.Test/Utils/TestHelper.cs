@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.TestHost;
-using Newtonsoft.Json;
 using System;
 using System.Linq;
 using VM = Blog.FK.Web.ViewModels;
