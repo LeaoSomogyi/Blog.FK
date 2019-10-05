@@ -11,11 +11,30 @@ namespace Blog.FK.Infra.Repositories
     {
         public BlogPostRepository(DbContext dbContext) : base(dbContext) { }
 
+        public override async Task<IEnumerable<BlogPost>> GetAllAsync()
+        {
+            try
+            {
+                return await DbContext.Set<BlogPost>().Include(b => b.User).ToListAsync();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public async Task<IEnumerable<BlogPost>> GetMoreBlogPostsAsync(int actualListSize)
         {
-            var blogPosts = await DbContext.Set<BlogPost>().ToListAsync();
+            try
+            {
+                var blogPosts = await DbContext.Set<BlogPost>().ToListAsync();
 
-            return blogPosts.OrderByDescending(b => b.CreatedAt).Skip(actualListSize).Take(3);
+                return blogPosts.OrderByDescending(b => b.CreatedAt).Skip(actualListSize).Take(3);
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

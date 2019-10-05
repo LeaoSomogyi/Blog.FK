@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Blog.FK.Domain.Entities
 {
@@ -15,6 +16,8 @@ namespace Blog.FK.Domain.Entities
         public DateTime CreatedAt { get; set; }
 
         public DateTime UpdatedAt { get; set; }
+
+        public ICollection<BlogPost> BlogPosts { get; set; }
 
         public User() { }
     }

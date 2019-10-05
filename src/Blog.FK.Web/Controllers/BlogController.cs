@@ -82,7 +82,7 @@ namespace Blog.FK.Web.Controllers
         #region "  Admin Actions  "
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]        
         public IActionResult Create()
         {
             return View();
@@ -113,7 +113,7 @@ namespace Blog.FK.Web.Controllers
             }
             else
             {
-                var _blogPost = _mapper.Map<BlogPost>(blogPost);
+                var _blogPost = _mapper.Map<BlogPost>(blogPost.SetAuthor(User));
 
                 await _blogApp.AddAsync(_blogPost);
 

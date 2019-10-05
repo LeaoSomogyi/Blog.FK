@@ -53,8 +53,6 @@
         function loadData(url) {
             fetchPromise(null, url, false)
                 .then((status) => {
-                    $('#connection-status').html(status);
-
                     clientStorage.getBlogPosts()
                         .then((posts) => {
                             template.appendBlogList(posts);

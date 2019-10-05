@@ -36,6 +36,8 @@ namespace Blog.FK.Application
             if (_user != null)
             {
                 var identity = new ClaimsIdentity(new[] {
+                    new Claim(ClaimTypes.Hash, _user.Id.ToString()),
+                    new Claim(ClaimTypes.Email, _user.Email),
                     new Claim(ClaimTypes.Name, _user.Name),
                     new Claim(ClaimTypes.Role, "Admin")
                 }, "Cookies");

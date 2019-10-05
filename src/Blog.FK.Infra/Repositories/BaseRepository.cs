@@ -27,7 +27,7 @@ namespace Blog.FK.Infra.Repositories
 
         #region "  IBaseRepository<TEntity>  "
 
-        public async Task<TEntity> AddAsync(TEntity entity)
+        public virtual async Task<TEntity> AddAsync(TEntity entity)
         {
             try
             {
@@ -41,7 +41,7 @@ namespace Blog.FK.Infra.Repositories
             }
         }
 
-        public async Task<TEntity> FindAsync(Guid id)
+        public virtual async Task<TEntity> FindAsync(Guid id)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace Blog.FK.Infra.Repositories
             }
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             try
             {
@@ -65,7 +65,7 @@ namespace Blog.FK.Infra.Repositories
             }
         }
 
-        public void Remove(TEntity entity)
+        public virtual void Remove(TEntity entity)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace Blog.FK.Infra.Repositories
             }
         }
 
-        public async Task<IEnumerable<TEntity>> SearchAsync(Expression<Func<TEntity, bool>> expression)
+        public virtual async Task<IEnumerable<TEntity>> SearchAsync(Expression<Func<TEntity, bool>> expression)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace Blog.FK.Infra.Repositories
             }
         }
 
-        public void Update(TEntity entity)
+        public virtual void Update(TEntity entity)
         {
             try
             {

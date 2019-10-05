@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Blog.FK.Domain.Entities;
+using Blog.FK.Web.Profiles.CustomResolvers;
 using Blog.FK.Web.ViewModels;
 using System;
 
@@ -9,7 +10,9 @@ namespace Blog.FK.Web.Profiles
     {
         public BlogPostProfile()
         {
-            CreateMap<BlogPost, BlogPostViewModel>();
+            CreateMap<BlogPost, BlogPostViewModel>()
+                .ForMember(mo => mo.UserViewModel, b => b.MapFrom(new PostAuthorResolver()));
+
             CreateMap<BlogPostViewModel, BlogPost>()
                 .AfterMap((vm, post) =>
                 {
@@ -21,6 +24,8 @@ namespace Blog.FK.Web.Profiles
 
                     if (post.UpdatedAt.Equals(DateTime.MinValue))
                         post.UpdatedAt = DateTime.Now;
+
+                    post.UserId = vm.UserViewModel.Id;
                 });
         }
     }

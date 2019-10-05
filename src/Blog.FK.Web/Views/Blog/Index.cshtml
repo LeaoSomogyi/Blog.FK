@@ -11,9 +11,6 @@
 </div>
 
 <div class="container">
-    <div class="alert alert-info show" id="connection-status">
-    </div>
-
     <div class="blog-list row mb-2" id="blog-list">
     </div>
 
@@ -23,6 +20,7 @@
                 <div class="col p-4 d-flex flex-column position-static">
                     <strong class="d-inline-block mb-2 text-primary">{{PostId}}</strong>
                     <h3 class="mb-0">{{Title}}</h3>
+                    <div class="mb-1 mt-2 text-muted">{{Author}}</div>
                     <p class="card-text mb-auto">{{ShortDescription}}</p>
                     <a href="javascript:;" onclick="pageEvents.loadBlogPost('{{Id}}', '{{Link}}');" class="stretched-link">Ler</a>
                 </div>
@@ -39,7 +37,7 @@
     <div id="blog-item-container"></div>
 
     <script id="blog-item" type="text/template">
-        <div id="{{Link}}" class="blog-item">
+        <div id="{{Link}}" class="blog-item">            
             {{Content}}
         </div>
         <a href="javascript:;" onclick="pageEvents.navigateBack()" class="btn btn-primary">Voltar</a>

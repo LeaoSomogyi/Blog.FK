@@ -1,6 +1,7 @@
 ﻿using Blog.FK.Domain.Entities;
 using Blog.FK.Infra.EFConfig;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Blog.FK.Infra.DataContext
 {
@@ -16,6 +17,11 @@ namespace Blog.FK.Infra.DataContext
         {
             modelBuilder.ApplyConfiguration(new BlogPostEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
+
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
         }
     }
 }

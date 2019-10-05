@@ -27,6 +27,11 @@ namespace Blog.FK.Domain.Entities
 
         public DateTime UpdatedAt { get; set; }
 
+        [Column("User_Id")]
+        public Guid UserId { get; set; }
+
+        public User User { get; set; }
+
         public BlogPost() { }
     }
 }

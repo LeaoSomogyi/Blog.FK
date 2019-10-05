@@ -31,6 +31,10 @@ namespace Blog.FK.Infra.EFConfig
                 .HasColumnType("Datetime")
                 .HasColumnName("UpdatedAt_BlogPost")
                 .IsRequired(true);
+
+            blogConfiguration.HasOne(b => b.User)
+                .WithMany(u => u.BlogPosts)
+                .HasForeignKey(b => b.UserId);
         }
     }
 }
