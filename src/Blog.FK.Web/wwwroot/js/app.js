@@ -28,7 +28,7 @@ window.pageEvents = {
     tryAddHomeScreen: function () {
         defferedPrompt.prompt();
         defferedPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome == 'accepted') {
+            if (choiceResult.outcome === 'accepted') {
                 console.log('App foi aceito para instalação o/');
             }
             defferedPrompt = null;
@@ -68,6 +68,9 @@ window.pageEvents = {
                 }
             });
         });
+    },
+    requestPushPermission: function () {
+        serviceWorker.requestPushPermission();
     }
 };
 
