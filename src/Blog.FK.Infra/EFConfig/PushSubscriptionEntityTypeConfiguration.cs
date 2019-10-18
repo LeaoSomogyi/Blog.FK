@@ -8,6 +8,8 @@ namespace Blog.FK.Infra.EFConfig
     {
         public void Configure(EntityTypeBuilder<PushSubscription> pushConfiguration)
         {
+            pushConfiguration.ToTable("TFKPushSubscription");
+
             pushConfiguration.HasKey(p => p.Endpoint);
             pushConfiguration.Ignore(p => p.Keys);
         }

@@ -108,3 +108,10 @@ self.addEventListener('backgroundfetchsuccess', (event) => {
         event.updateUI({ title: 'Download Concluído' });
     });
 });
+
+self.addEventListener('push', (event) => {
+    event.waitUntil(self.registration.showNotification('Blog FK!', {
+        body: event.data.text(),
+        icon: '/images/icon-72x72.png'
+    }));
+});

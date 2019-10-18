@@ -34,14 +34,11 @@ namespace Blog.FK.Web
                 .AddDefaultJsonOptions()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<BlogPostViewModelValidator>());
 
-            services.AddAutoMapper(typeof(BlogPostProfile), typeof(UserProfile));
+            services.AddAutoMapperProfiles();
 
-            services.AddEntityFrameworkSqlServer().AddDbContext<BlogContext>(options =>
-            {
-                options.UseSqlServer(Configuration["BlogFKConn:ConnectionString"],
-                    sqlOptions => sqlOptions.MigrationsAssembly(typeof(BlogContext)
-                    .GetTypeInfo().Assembly.GetName().Name));
-            });
+            services.AddSqlServer(Configuration);
+
+            services.AddPushSubscriptionService(Configuration);
 
             #region "  Register Services  "
 
@@ -107,6 +104,13 @@ namespace Blog.FK.Web
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<DbContext>();
                 context.Database.Migrate();
+            }
+
+            //Create SQLite Database if needed
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<PushSubscriptionContext>();
+                context.Database.EnsureCreated();
             }
         }
     }

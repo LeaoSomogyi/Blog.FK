@@ -1,12 +1,11 @@
 ﻿using Blog.FK.Application.Interfaces;
 using Blog.FK.Infra.DataContext;
+using Lib.Net.Http.WebPush;
+using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Lib.Net.Http.WebPush;
 using Model = Blog.FK.Domain.Entities;
 
 namespace Blog.FK.Application
@@ -30,19 +29,26 @@ namespace Blog.FK.Application
 
         #region "  IPushSubscriptionApplication  "
 
-        public Task DiscardSubscriptionAsync(string endpoint)
+        public async Task DiscardSubscriptionAsync(string endpoint)
         {
-            throw new NotImplementedException();
-        }        
+            var subscription = await _context.Subscriptions.FindAsync(endpoint);
 
-        public Task ForEachSubscriptionAsync(Action<PushSubscription> action)
-        {
-            throw new NotImplementedException();
+            if (subscription != null)
+            {
+                _context.Subscriptions.Remove(subscription);
+            }
+
+            await _context.SaveChangesAsync();
         }
 
-        public Task ForEachSubscriptionAsync(Action<PushSubscription> action, CancellationToken cancellationToken)
+        public async Task ForEachSubscriptionAsync(Action<PushSubscription> action)
         {
-            throw new NotImplementedException();
+            await ForEachSubscriptionAsync(action, CancellationToken.None);
+        }
+
+        public async Task ForEachSubscriptionAsync(Action<PushSubscription> action, CancellationToken cancellationToken)
+        {
+            await _context.Subscriptions.AsNoTracking().ForEachAsync(action, cancellationToken);
         }
 
         public async Task<int> StoreSubscriptionAsync(PushSubscription subscription)

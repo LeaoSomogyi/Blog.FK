@@ -17,6 +17,7 @@ namespace Blog.FK.IoC
             services.AddScoped<IBlogPostApplication, BlogPostApplication>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserApplication, UserApplication>();
+            services.AddTransient<IPushSubscriptionApplication, PushSubscriptionApplication>();
         }
     }
 }

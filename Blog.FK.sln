@@ -17,7 +17,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7ED1E2AD-7CD
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0D7E7A22-D210-4916-A2C9-7DAC8C866B3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.FK.Application", "src\Blog.FK.Application\Blog.FK.Application.csproj", "{D182F16A-4486-4CB0-A850-017C150069AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.FK.Application", "src\Blog.FK.Application\Blog.FK.Application.csproj", "{D182F16A-4486-4CB0-A850-017C150069AB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solution Items", "{5998B955-928E-4BFE-9C5D-65A084DE6BD5}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

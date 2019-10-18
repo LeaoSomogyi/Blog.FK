@@ -17,7 +17,7 @@
 
     return {
         retrievePublicKey: function () {
-            return fetch('/publickey').then((response) => {
+            return fetch('/subscriptions/public-key').then((response) => {
                 if (response.ok) {
                     return response.text().then(function (applicationServerPublicKeyBase64) {
                         return urlB64ToUint8Array(applicationServerPublicKeyBase64);
