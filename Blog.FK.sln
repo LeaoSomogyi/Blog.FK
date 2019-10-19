@@ -22,6 +22,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solution Items", "{5998B955-928E-4BFE-9C5D-65A084DE6BD5}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		vapid.json = vapid.json
 	EndProjectSection
 EndProject
 Global
