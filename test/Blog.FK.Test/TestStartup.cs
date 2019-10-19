@@ -36,9 +36,9 @@ namespace Blog.FK.Test
 
             services.AddAutoMapper(typeof(BlogPostProfile), typeof(UserProfile));
 
-            services.AddEntityFrameworkSqlite().AddDbContext<BlogContext>(options =>
+            services.AddEntityFrameworkSqlServer().AddDbContext<BlogContext>(options =>
             {
-                options.UseSqlite(Configuration["BlogFKConn:ConnectionString"],
+                options.UseSqlServer(Configuration["BlogFKConn:ConnectionString"],
                     sqlOptions => sqlOptions.MigrationsAssembly(typeof(BlogContext)
                     .GetTypeInfo().Assembly.GetName().Name));
             });

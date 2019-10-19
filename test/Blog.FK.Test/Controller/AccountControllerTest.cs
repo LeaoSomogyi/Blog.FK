@@ -8,6 +8,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -148,11 +149,20 @@ namespace Blog.FK.Test.Controller
         public async Task Remove_Ok()
         {
             //Arrange
+            var _user = TestHelper.GetUserViewModel();
+
+            _user.Moq(u => u.Id = Guid.NewGuid());
+
+            await _accountController.SaveUser(_user);
+
+            //Need to force Dispose to save new User and use on further tests
+            _accountController.Dispose();
+
             var response = await _accountController.List();
 
             var users = response.GetModelFromViewResultResponse<IEnumerable<UserViewModel>>();
 
-            var user = users.LastOrDefault();
+            var user = users.FirstOrDefault();
 
             //Act
             var removeResponse = await _accountController.Remove(user.Id);

@@ -46,12 +46,15 @@ namespace Blog.FK.Web.ViewModels
         /// <returns>Blog.FK.Web.ViewModels.BlogPostViewModel</returns>
         public BlogPostViewModel SetAuthor(ClaimsPrincipal claimsPrincipal)
         {
-            UserViewModel = new UserViewModel
+            if (claimsPrincipal.Claims.Count() > 0)
             {
-                Id = Guid.Parse(claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Hash).Value),
-                Name = claimsPrincipal.Identity.Name,
-                Email = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value
-            };
+                UserViewModel = new UserViewModel
+                {
+                    Id = Guid.Parse(claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Hash).Value),
+                    Name = claimsPrincipal.Identity.Name,
+                    Email = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value
+                };
+            }            
 
             return this;
         }

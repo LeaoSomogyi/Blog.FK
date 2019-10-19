@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.TestHost;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using VM = Blog.FK.Web.ViewModels;
 
 namespace Blog.FK.Test.Utils
@@ -29,6 +30,7 @@ namespace Blog.FK.Test.Utils
         {
             return new VM.UserViewModel()
             {
+                Id = Guid.Parse("6BAB0DEA-047A-48F1-9171-49C934EA13CA"),
                 Name = "Test User",
                 Email = "test@user.com",
                 Password = "@abc123"
@@ -45,8 +47,25 @@ namespace Blog.FK.Test.Utils
             {
                 Title = "Test Post",
                 ShortDescription = "Some nice description",
-                Content = "Some awesome content."
+                Content = "Some awesome content.",
+                UserViewModel = GetUserViewModel()
             };
+        }
+
+        /// <summary>
+        /// Get a Security.Claims.ClaimsPrincipal with a mock user
+        /// </summary>
+        /// <returns></returns>
+        public static ClaimsPrincipal GetClaimsPrincipal() 
+        {
+            var identity = new ClaimsIdentity(new[] {
+                    new Claim(ClaimTypes.Hash, GetUserViewModel().Id.ToString()),
+                    new Claim(ClaimTypes.Email, GetUserViewModel().Email),
+                    new Claim(ClaimTypes.Name, GetUserViewModel().Name),
+                    new Claim(ClaimTypes.Role, "Admin")
+                }, "Cookies");
+
+            return new ClaimsPrincipal(identity);
         }
 
         /// <summary>

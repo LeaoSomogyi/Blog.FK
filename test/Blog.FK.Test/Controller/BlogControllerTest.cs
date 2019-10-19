@@ -162,7 +162,7 @@ namespace Blog.FK.Test.Controller
             //Arrange
             var _blogPost = TestHelper.GetBlogPostViewModel();
 
-            await _blogController.SavePost(_blogPost);
+            await _blogController.SavePost(_blogPost.SetAuthor(TestHelper.GetClaimsPrincipal()));
 
             //Need to Dispose to save new Blog and use on further tests
             _blogController.Dispose();
