@@ -68,7 +68,7 @@ namespace Blog.FK.Web.Controllers
         }
 
         [HttpPost]
-        [Route("send-notification")]
+        [Route("notification")]
         public async Task<IActionResult> SendNotification(PushMessageViewModel pushMessageViewModel)
         {
             var message = _mapper.Map<PushMessage>(pushMessageViewModel);
