@@ -6,7 +6,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 col-lg-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a asp-controller="Blog" asp-action="Index">Início</a></li>
@@ -17,7 +17,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 col-lg-12">
             @if (Model?.Id == null || Model?.Id == Guid.Empty)
             {
                 <h1>Cadastro</h1>

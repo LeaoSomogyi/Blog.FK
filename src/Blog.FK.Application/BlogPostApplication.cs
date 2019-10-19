@@ -56,7 +56,7 @@ namespace Blog.FK.Application
 
         public override async Task<BlogPost> FindAsync(Guid id)
         {
-            var blogPost = await base.FindAsync(id);
+            var blogPost = await _blogPostRepository.FindAsync(id);
 
             using (var streamReader = new StreamReader($"{_postsPath}/{blogPost.Id}_post.md"))
             {

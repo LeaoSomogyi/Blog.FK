@@ -23,12 +23,15 @@
 <body>
     <main role="main">
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <div class="container">
-                <div class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">Blog FK</a>
+            <div class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Blog FK</a>
+                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbarCollapse">
                     @if (@User.Identity.Name != null)
                     {
-                        <ul class="navbar-nav flex-grow-1">
+                        <ul class="navbar-nav mr-auto flex-grow-1">
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Blog" asp-action="Index"><i class="fa fa-home"></i> Início<span class="sr-only">(current)</span></a>
                             </li>
