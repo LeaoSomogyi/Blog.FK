@@ -112,6 +112,6 @@ self.addEventListener('backgroundfetchsuccess', (event) => {
 self.addEventListener('push', (event) => {
     event.waitUntil(self.registration.showNotification('Blog FK!', {
         body: event.data.text(),
-        icon: '/images/icon-72x72.png'
+        icon: '/images/icons/icon-72x72.png'
     }));
 });

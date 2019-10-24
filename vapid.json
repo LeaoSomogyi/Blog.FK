@@ -1,6 +1,6 @@
 {
   //generate your own https://tools.reactpwa.com/vapid
   "subject": "mailto:leaosomogyi@hotmail.com",
-  "publicKey": "BL9Uq-vIyTJEfHCQPv9uturXN-iu7RI5eisp8PHiXjDmg_865VxlgFGa-RV93EFhlCE_XHAWviv4GsCT3Agoxko",
-  "privateKey": "F1S0_xlYuV-VLVRcw-mmJ62OowbgAPGkUXMLt57JbwY"
+  "publicKey": "BNb6UoacQg5Kk_C9bk0wgPXtygE8cr_M_TJj1l8JK0MHVx8YBNjm3ULakHi6c_wKfjBMM9uglbEQ2HfvllB5ScU",
+  "privateKey": "KuwDCFStpOmPGFJTrmayLj8XnROQOwMlutqJoI9_AQc"
 }
