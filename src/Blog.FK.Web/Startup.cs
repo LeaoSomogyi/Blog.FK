@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using Blog.FK.Infra.DataContext;
+﻿using Blog.FK.Infra.DataContext;
 using Blog.FK.IoC;
 using Blog.FK.Web.Extensions;
-using Blog.FK.Web.Profiles;
 using Blog.FK.Web.Validators;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -11,10 +9,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
+using Microsoft.Extensions.FileProviders;
+using System;
+using System.IO;
 
 namespace Blog.FK.Web
 {
@@ -54,14 +55,18 @@ namespace Blog.FK.Web
 
             #endregion
 
-            services.AddSession();
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(1);
+            });
         }
 
         private void ConfigureAuth(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
-                options.CheckConsentNeeded = context => true;
+                options.CheckConsentNeeded = context => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
@@ -89,8 +94,16 @@ namespace Blog.FK.Web
             app.UseHttpsRedirection();
             app.UseCookiePolicy();
             app.UseAuthentication();
-            app.UseSession();
             app.UseStaticFiles();
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
+                RequestPath = "/static",
+                ServeUnknownFileTypes = true,
+            });
+
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

@@ -11,6 +11,9 @@ using System.Reflection;
 
 namespace Blog.FK.Web.Extensions
 {
+    /// <summary>
+    /// Useful Startup methods
+    /// </summary>
     public static class StartupExtensions
     {
         /// <summary>

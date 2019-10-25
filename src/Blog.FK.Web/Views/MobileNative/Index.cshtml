@@ -1,0 +1,99 @@
+﻿@model MobileNativeViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            @if (TempData["photoError"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @TempData["photoError"]
+                </div>
+            }
+            <form asp-action="Photo" asp-controller="MobileNative" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="Photo"></label>
+                    <div class="input-group mb-3">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-camera"></i></span>
+                            </div>
+                            <div class="custom-file">
+                                <input asp-for="Photo" type="file" accept="image/*" capture="camera" class="custom-file-input" aria-describedby="inputText" />
+                                <label class="custom-file-label" for="inputText">Tire uma foto para visualizar</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Visualizar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            @if (TempData["videoError"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @TempData["videoError"]
+                </div>
+            }
+            <form asp-action="Video" asp-controller="MobileNative" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="Video"></label>
+                    <div class="input-group mb-3">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-video"></i></span>
+                            </div>
+                            <div class="custom-file">
+                                <input asp-for="Video" type="file" accept="video/*" capture="camcorder" class="custom-file-input" aria-describedby="inputText" />
+                                <label class="custom-file-label" for="inputText">Grave um vídeo para visualizar</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Visualizar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            @if (TempData["audioError"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @TempData["audioError"]
+                </div>
+            }
+            <form asp-action="Audio" asp-controller="MobileNative" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="Audio"></label>
+                    <div class="input-group mb-3">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-play-circle"></i></span>
+                            </div>
+                            <div class="custom-file">
+                                <input asp-for="Audio" type="file" accept="audio/*" capture="microphone" class="custom-file-input" aria-describedby="inputText" />
+                                <label class="custom-file-label" for="inputText">Grave um áudio para visualizar</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Visualizar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+
+    </div>
+    <div class="row">
+
+    </div>
+</div>

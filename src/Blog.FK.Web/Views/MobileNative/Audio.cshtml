@@ -1,0 +1,19 @@
+﻿@model FileContentResult
+@{
+    ViewData["Title"] = "Audio";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-lg-12">
+            <audio src="@Model">
+                <p>Seu nevegador não suporta o elemento audio.</p>
+            </audio>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2 col-lg-2">
+            <a asp-action="Index" asp-controller="MobileNative"><i class="fa fa-arrow-left"></i> Voltar</a>
+        </div>
+    </div>
+</div>
