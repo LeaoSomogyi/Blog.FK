@@ -6,7 +6,11 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-12 col-lg-12">
-            <video src="@Url.Content($"~/static/{Model}")" controls autoplay>
+            <p>Não está funcionando a reprodução do vídeo =/</p>
+        </div>
+        <div class="col-12 col-lg-12">
+            <video controls autoplay>
+                <source src="https://localhost:44315/static/@Model" type="video/mp4" />
                 Seu navegador não suporta o elemento
                 <code>video</code>.
             </video>
@@ -14,7 +18,7 @@
     </div>
     <div class="row">
         <div class="col-2 col-lg-12">
-            <a asp-action="Index" asp-controller="MobileNative"><i class="fa fa-arrow-left"></i> Voltar</a>
+            <a href="/MobileNative/CleanVideo?id=@Model"><i class="fa fa-arrow-left"></i> Voltar</a>
         </div>
     </div>
 </div>

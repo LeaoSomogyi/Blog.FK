@@ -91,17 +91,21 @@ namespace Blog.FK.Web
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseCookiePolicy();
-            app.UseAuthentication();
             app.UseStaticFiles();
 
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
+                FileProvider = new PhysicalFileProvider(Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    @"wwwroot",
+                    @"Videos")),
                 RequestPath = "/static",
                 ServeUnknownFileTypes = true,
             });
+
+            app.UseHttpsRedirection();
+            app.UseCookiePolicy();
+            app.UseAuthentication();           
 
             app.UseSession();
 

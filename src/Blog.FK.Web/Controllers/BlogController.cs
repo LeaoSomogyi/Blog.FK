@@ -38,6 +38,7 @@ namespace Blog.FK.Web.Controllers
         #region "  Public Actions  "
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
@@ -50,6 +51,7 @@ namespace Blog.FK.Web.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<JsonResult> GetLatestPosts()
         {
             var posts = await _blogApp.GetAllAsync();
@@ -60,6 +62,7 @@ namespace Blog.FK.Web.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ContentResult> LoadBlogPost(Guid id)
         {
             var blogPost = await _blogApp.FindAsync(id);
@@ -68,6 +71,7 @@ namespace Blog.FK.Web.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<JsonResult> GetMoreBlogPosts(int actualListSize)
         {
             var blogPosts = await _blogApp.GetMoreBlogPostsAsync(actualListSize);

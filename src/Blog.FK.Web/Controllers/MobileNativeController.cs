@@ -1,5 +1,6 @@
 ﻿using Blog.FK.Web.Extensions;
 using Blog.FK.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ namespace Blog.FK.Web.Controllers
 
         [HttpGet]
         [DisableRequestSizeLimit]
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
@@ -26,6 +28,7 @@ namespace Blog.FK.Web.Controllers
 
         [HttpPost]
         [DisableRequestSizeLimit]
+        [AllowAnonymous]
         public async Task<IActionResult> Photo(MobileNativeViewModel mobileNativeViewModel)
         {
             if (mobileNativeViewModel?.Photo == null)
@@ -45,6 +48,7 @@ namespace Blog.FK.Web.Controllers
 
         [HttpPost]
         [DisableRequestSizeLimit]
+        [AllowAnonymous]
         public async Task<IActionResult> Video(MobileNativeViewModel mobileNativeViewModel)
         {
             if (mobileNativeViewModel?.Video == null)
@@ -62,16 +66,33 @@ namespace Blog.FK.Web.Controllers
 
                 var guid = Guid.NewGuid();
 
-                using (var fs = System.IO.File.Create($"{_hostingEnvironment.WebRootPath}/{guid}.mp4"))
+                HttpContext.Session.SetString("video", guid.ToString());
+
+                using (var fs = System.IO.File.Create($"{_hostingEnvironment.WebRootPath}/Videos/{guid}.mp4"))
                 {
                     await fs.WriteAsync(videoBytes);
                 }
 
-                return View("Video", guid.ToString());
+                return View("Video", $"{guid.ToString()}.mp4");
             }
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult CleanVideo(string id) 
+        {
+            var path = $"{_hostingEnvironment.WebRootPath}\\Videos\\{id}";
+
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+
+            return LocalRedirect("/MobileNative/Index");
+        }
+
         [HttpPost]
+        [AllowAnonymous]
         [DisableRequestSizeLimit]
         public async Task<IActionResult> Audio(MobileNativeViewModel mobileNativeViewModel)
         {

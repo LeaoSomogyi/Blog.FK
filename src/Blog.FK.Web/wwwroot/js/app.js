@@ -1,5 +1,6 @@
 ﻿var blogService = require('./blogService.js');
 var serviceWorker = require('./swRegister.js');
+var geolocationService = require('./geolocationService.js');
 
 let defferedPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
@@ -71,6 +72,9 @@ window.pageEvents = {
     },
     requestPushPermission: function () {
         serviceWorker.requestPushPermission();
+    },
+    getGeolocation: function () {
+        geolocationService.getGeolocation();
     }
 };
 

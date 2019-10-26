@@ -23,6 +23,7 @@ var blogCacheFiles = [
     '/favicon.ico',
     '/js/blogService.js',
     '/js/swRegister.js',
+    '/js/geolocationService.js',
     '/js/template.js',
     '/lib/showdown/showdown.js',
     '/js/clientStorage.js',

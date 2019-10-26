@@ -31,8 +31,6 @@
                 </div>
             </form>
         </div>
-    </div>
-    <div class="row">
         <div class="col-12 col-lg-6">
             @if (TempData["videoError"] != null)
             {
@@ -91,7 +89,20 @@
         </div>
     </div>
     <div class="row">
-
+        <div class="col-12 col-lg-8">
+            <div class="form-group">
+                <label>Seu endereço</label>
+                <div class="input-group mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa fa-globe-americas"></i></span>
+                        <input id="address-result" type="text" disabled="disabled" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="button" onclick="pageEvents.getGeolocation()" class="btn btn-primary">Clique para exibir sua localização</button>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row">
 
