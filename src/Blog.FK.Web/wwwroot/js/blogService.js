@@ -55,8 +55,10 @@
                 .then((status) => {
                     clientStorage.getBlogPosts()
                         .then((posts) => {
-                            template.appendBlogList(posts);
-                            actualListSize += posts.length;
+                            if (posts) {
+                                template.appendBlogList(posts);
+                                actualListSize += posts.length;
+                            }
                         });
                 });
         }

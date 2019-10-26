@@ -114,5 +114,11 @@ namespace Blog.FK.Web.Controllers
                 return View(file);
             }
         }
+
+        [HttpGet]
+        public IActionResult Punch() 
+        {
+            return View();
+        }
     }
 }

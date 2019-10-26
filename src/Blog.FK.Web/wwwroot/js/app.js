@@ -1,6 +1,7 @@
 ﻿var blogService = require('./blogService.js');
 var serviceWorker = require('./swRegister.js');
 var geolocationService = require('./geolocationService.js');
+var punchMeter = require('./punchMeter.js');
 
 let defferedPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
@@ -75,6 +76,9 @@ window.pageEvents = {
     },
     getGeolocation: function () {
         geolocationService.getGeolocation();
+    },
+    punchLoad: function () {
+        punchMeter.main();
     }
 };
 

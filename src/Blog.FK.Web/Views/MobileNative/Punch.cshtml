@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewData["Title"] = "Pratique seu soco!";
+}
+<div class="container">
+    <div class="row">
+        <div class="container" align="center">
+            <div id="intro" class="punchAnimation">
+                <img class="logo" src="/images/punchometer.png" />
+                <div class="readyToPunch">
+                    Pronto para medir a força do seu soco?
+                </div>
+            </div>
+        </div>
+        <div id="game" class="game">
+            <div id="game_text" class="shakeToStart" style="display:none;">
+                Mexa seu celular e descubra!
+            </div>
+            <canvas id="gauge"></canvas>
+            <div id="measurement" class="shakeToStart" style="display:none;">
+                <div id="preview">0</div>
+                <div>km/h</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let intro = document.getElementById("intro");
+    function onAnimationEnd() {
+        intro.removeEventListener("animationend", onAnimationEnd);
+        setTimeout(pageEvents.punchLoad(), 2000);
+    }
+    intro.addEventListener("animationend", onAnimationEnd, false);
+</script>
+

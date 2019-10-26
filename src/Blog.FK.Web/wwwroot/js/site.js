@@ -1,1 +1,1 @@
-﻿System.import('./js/app.js');
+﻿System.import('../js/app.js');
