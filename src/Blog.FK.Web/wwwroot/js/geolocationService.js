@@ -1,5 +1,5 @@
 ﻿define([], function () {
-    var GOOGLE_MAPS_KEY = 'AIzaSyDkokSgwFgLELGKOW5xxDVNhYNBCzJSo_';
+    var GOOGLE_MAPS_KEY = 'AIzaSyDkokSgwFgLELGKOW5xxDVNhYNBCzJSo_c';
 
     function ipLookUp() {
         $.ajax('http://ip-api.com/json')
