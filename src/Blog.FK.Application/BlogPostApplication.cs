@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Blog.FK.Application
@@ -17,6 +16,7 @@ namespace Blog.FK.Application
 
         private readonly IBlogPostRepository _blogPostRepository;
         private readonly IHostingEnvironment _environment;
+        private readonly IIORepository _iORepository;
         private readonly string _postsPath;
 
         #endregion
@@ -24,10 +24,12 @@ namespace Blog.FK.Application
         #region "  Constructors  "
 
         public BlogPostApplication(IBlogPostRepository blogPostRepository, IHostingEnvironment environment,
-            IConfiguration configuration) : base(blogPostRepository)
+            IConfiguration configuration, IIORepository iORepository) :
+            base(blogPostRepository)
         {
             _blogPostRepository = blogPostRepository;
             _environment = environment;
+            _iORepository = iORepository;
             _postsPath = $"{_environment.ContentRootPath}{configuration["PostsPath"]}";
         }
 
@@ -39,17 +41,7 @@ namespace Blog.FK.Application
         {
             var blogPost = await base.AddAsync(entity);
 
-            if (!Directory.Exists(_postsPath))
-            {
-                Directory.CreateDirectory(_postsPath);
-            }
-
-            using (var fileStream = File.Create($"{_postsPath}/{blogPost.Id}_post.md"))
-            {
-                var bytes = new UTF8Encoding(true).GetBytes(blogPost.Content);
-
-                fileStream.Write(bytes, 0, bytes.Length);
-            }
+            _iORepository.CreateFile(blogPost.GetContentBytes(), _postsPath, $"{blogPost.Id}_post", "md");
 
             return blogPost;
         }
@@ -58,12 +50,7 @@ namespace Blog.FK.Application
         {
             var blogPost = await _blogPostRepository.FindAsync(id);
 
-            using (var streamReader = new StreamReader($"{_postsPath}/{blogPost.Id}_post.md"))
-            {
-                var content = await streamReader.ReadToEndAsync();
-
-                blogPost.Content = content;
-            }
+            blogPost.Content = await _iORepository.ReadFileAsync($"{_postsPath}/{blogPost.Id}_post.md");
 
             return blogPost;
         }

@@ -87,7 +87,7 @@ namespace Blog.FK.Test.Controller
         public async Task GetLatestPosts_Ok()
         {
             //Act
-            var jsonResponse = await _blogController.GetLatestPosts();
+            var jsonResponse = await _blogController.Get();
 
             var blogPosts = jsonResponse.CastJsonResult<IEnumerable<BlogPostViewModel>>();
 
@@ -107,7 +107,7 @@ namespace Blog.FK.Test.Controller
             var blogPost = blogPosts.FirstOrDefault();
 
             //Act
-            var loadResponse = await _blogController.LoadBlogPost(blogPost.Id);
+            var loadResponse = await _blogController.GetById(blogPost.Id);
 
             //Assert
             Assert.True(loadResponse is ContentResult);
@@ -118,7 +118,7 @@ namespace Blog.FK.Test.Controller
         public async Task GetMoreBlogPosts_Ok()
         {
             //Act
-            var response = await _blogController.GetMoreBlogPosts(1);
+            var response = await _blogController.Search(1);
 
             var blogPosts = response.CastJsonResult<IEnumerable<BlogPostViewModel>>();
 

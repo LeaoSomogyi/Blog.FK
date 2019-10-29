@@ -1,8 +1,8 @@
 ﻿define(['./template.js', '../lib/showdown/showdown.js', './clientStorage.js'],
     function (template, showdown, clientStorage) {
-        var blogPostUrl = '/Blog/GetLatestPosts/';
-        var blogGetUrl = '/Blog/LoadBlogPost/?id=';
-        var blogMorePostsUrl = '/Blog/GetMoreBlogPosts/?actualListSize=';
+        var blogPostUrl = '/Blog/Get/';
+        var blogGetUrl = '/Blog/GetById/?id=';
+        var blogMorePostsUrl = '/Blog/Search/?actualListSize=';
         var offlineText = 'Sem conexão com a internet, exibindo posts offline.';
         var onlineText = 'Detectamos uma conexão com a internet. Exibindo últimos posts.';
         var slowInternetText = 'A conexão com a intenet está muito lenta, exibindo posts offline';

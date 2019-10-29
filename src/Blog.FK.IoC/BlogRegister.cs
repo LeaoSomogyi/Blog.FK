@@ -14,6 +14,7 @@ namespace Blog.FK.IoC
         {
             services.AddScoped<DbContext, BlogContext>();
             services.AddScoped<IBlogPostRepository, BlogPostRepository>();
+            services.AddScoped<IIORepository, IORepository>();
             services.AddScoped<IBlogPostApplication, BlogPostApplication>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserApplication, UserApplication>();

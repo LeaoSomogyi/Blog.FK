@@ -1,6 +1,7 @@
 ﻿using Blog.FK.Domain.Extensions;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
 
 namespace Blog.FK.Domain.Entities
 {
@@ -33,5 +34,14 @@ namespace Blog.FK.Domain.Entities
         public User User { get; set; }
 
         public BlogPost() { }
+
+        /// <summary>
+        /// Retrieve bytes from Blog Post Content
+        /// </summary>
+        /// <returns></returns>
+        public byte[] GetContentBytes() 
+        {
+            return new UTF8Encoding(true).GetBytes(Content);
+        }
     }
 }

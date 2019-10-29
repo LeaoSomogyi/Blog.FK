@@ -52,7 +52,7 @@ namespace Blog.FK.Web.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<JsonResult> GetLatestPosts()
+        public async Task<JsonResult> Get()
         {
             var posts = await _blogApp.GetAllAsync();
 
@@ -63,7 +63,7 @@ namespace Blog.FK.Web.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ContentResult> LoadBlogPost(Guid id)
+        public async Task<ContentResult> GetById(Guid id)
         {
             var blogPost = await _blogApp.FindAsync(id);
 
@@ -72,7 +72,7 @@ namespace Blog.FK.Web.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<JsonResult> GetMoreBlogPosts(int actualListSize)
+        public async Task<JsonResult> Search(int actualListSize)
         {
             var blogPosts = await _blogApp.GetMoreBlogPostsAsync(actualListSize);
 
