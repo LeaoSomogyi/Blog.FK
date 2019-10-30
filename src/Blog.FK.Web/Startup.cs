@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -105,7 +104,7 @@ namespace Blog.FK.Web
 
             app.UseHttpsRedirection();
             app.UseCookiePolicy();
-            app.UseAuthentication();           
+            app.UseAuthentication();
 
             app.UseSession();
 
