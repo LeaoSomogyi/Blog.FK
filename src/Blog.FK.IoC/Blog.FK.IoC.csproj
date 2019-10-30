@@ -5,15 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Blog.FK.Application\Blog.FK.Application.csproj" />
-    <ProjectReference Include="..\Blog.FK.Domain\Blog.FK.Domain.csproj" />
-    <ProjectReference Include="..\Blog.FK.Infra\Blog.FK.Infra.csproj" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
-      <HintPath>..\..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.dependencyinjection.abstractions\2.2.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Blog.FK.Application\Blog.FK.Application.csproj" />
+    <ProjectReference Include="..\Blog.FK.Domain\Blog.FK.Domain.csproj" />
+    <ProjectReference Include="..\Blog.FK.Infra\Blog.FK.Infra.csproj" />
   </ItemGroup>
 
 </Project>
